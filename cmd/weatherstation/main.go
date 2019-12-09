@@ -19,6 +19,7 @@ const returnToScreenSaverDelay = 30 * time.Second
 var log = util.Log{Context: "main"}
 
 type weatherstation struct {
+	app    fyne.App
 	window fyne.Window
 
 	container   *widget.Box
@@ -29,8 +30,11 @@ type weatherstation struct {
 func main() {
 	res.CurrentLocale = res.DE
 
-	w := app.New().NewWindow("Weatherinformation")
+	a := app.New()
+	w := a.NewWindow("Weatherinformation")
+	w.SetFixedSize(true)
 	app := weatherstation{
+		app:         a,
 		window:      w,
 		container:   widget.NewHBox(),
 		screenSaver: ui.NewScreenSaver(),
@@ -44,6 +48,7 @@ func main() {
 
 	app.startScreenSaverUpdates()
 	app.handleScreenSaverTouches()
+	app.handleCloseButtonTouches()
 	app.start()
 }
 
@@ -71,6 +76,14 @@ func (app *weatherstation) handleScreenSaverTouches() {
 			log.D("handleScreenSaverTouches", "Switching back to screensaver")
 			app.showScreenSaver()
 		}
+	}()
+}
+
+func (app *weatherstation) handleCloseButtonTouches() {
+	go func() {
+		<-app.weather.CloseTouches
+		log.D("handleCloseButtonTouches", "Closing app")
+		app.app.Quit()
 	}()
 }
 

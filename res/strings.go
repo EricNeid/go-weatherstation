@@ -26,6 +26,10 @@ var Labels = map[string]map[Locale]string{
 		DE: "Übermorgen",
 		EN: "Day after tomorrow",
 	},
+	"close": {
+		DE: "Schließen",
+		EN: "Close",
+	},
 }
 
 // GetLabel returns localiced label for given key. See Labels for valid keys

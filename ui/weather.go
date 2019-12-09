@@ -5,6 +5,7 @@ import (
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
+	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-weatherstation/res"
 	"github.com/EricNeid/go-weatherstation/util"
@@ -14,6 +15,8 @@ import (
 type Weather struct {
 	widget.Box
 	background *canvas.Image
+
+	CloseTouches chan bool
 }
 
 // NewWeather constructs a new instance of a NewWeather widget.
@@ -21,22 +24,28 @@ func NewWeather() *Weather {
 	weather := &Weather{
 		widget.Box{},
 		&canvas.Image{FillMode: canvas.ImageFillOriginal},
+		make(chan bool),
 	}
 	weather.ExtendBaseWidget(weather)
 
+	header := widget.NewLabel("Header")
+
+	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+		widget.NewButton(res.GetLabel("close"), func() {
+			weather.CloseTouches <- true
+		}),
+		layout.NewSpacer(),
+		widget.NewLabel("time"),
+	)
+
+	center := widget.NewLabel("Center")
+
 	weather.Children = []fyne.CanvasObject{
-		fyne.NewContainer(
-			widget.NewVBox(
+		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+			fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 				weather.background,
 			),
-			widget.NewVBox(
-				widget.NewLabel("Hello"),
-				widget.NewHBox(
-					widget.NewLabel(res.GetLabel("today")),
-					widget.NewLabel(res.GetLabel("tomorrow")),
-					widget.NewLabel(res.GetLabel("aftertomorrow")),
-				),
-			),
+			fyne.NewContainerWithLayout(layout.NewBorderLayout(header, footer, nil, nil), header, footer, center),
 		),
 	}
 	return weather
