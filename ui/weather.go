@@ -6,6 +6,7 @@ import (
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/widget"
+	"github.com/EricNeid/go-netconvert/res"
 	"github.com/EricNeid/go-netconvert/util"
 )
 
@@ -31,9 +32,9 @@ func NewWeather() *Weather {
 			widget.NewVBox(
 				widget.NewLabel("Hello"),
 				widget.NewHBox(
-					widget.NewLabel("Heute"),
-					widget.NewLabel("Morgen"),
-					widget.NewLabel("Ubermorgen"),
+					widget.NewLabel(res.GetLabel("today")),
+					widget.NewLabel(res.GetLabel("tomorrow")),
+					widget.NewLabel(res.GetLabel("aftertomorrow")),
 				),
 			),
 		),

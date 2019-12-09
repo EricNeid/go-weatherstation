@@ -8,6 +8,7 @@ import (
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/dialog"
 	"fyne.io/fyne/widget"
+	"github.com/EricNeid/go-netconvert/res"
 	"github.com/EricNeid/go-netconvert/ui"
 	"github.com/EricNeid/go-netconvert/util"
 )
@@ -24,6 +25,8 @@ type weatherstation struct {
 }
 
 func main() {
+	res.CurrentLocale = res.DE
+
 	w := app.New().NewWindow("Weatherinformation")
 	app := weatherstation{
 		window:      w,
