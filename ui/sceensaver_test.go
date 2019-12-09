@@ -16,14 +16,16 @@ func TestSetBackground(t *testing.T) {
 	screensaver := NewScreenSaver()
 
 	// action
-	screensaver.SetBackground("testdata/img-1.png")
+	err := screensaver.SetBackground("../testdata/img-1.png")
 	// verify that only on children is present
+	test.Ok(t, err)
 	test.Equals(t, 1, len(screensaver.Children))
-	test.Equals(t, "testdata/img-1.png", screensaver.image.File)
+	test.Equals(t, "../testdata/img-1.png", screensaver.image.File)
 
 	// action
-	screensaver.SetBackground("testdata/img-2.png")
+	err = screensaver.SetBackground("../testdata/dir/img-2.png")
 	// verify that still only one children is present
+	test.Ok(t, err)
 	test.Equals(t, 1, len(screensaver.Children))
-	test.Equals(t, "testdata/img-2.png", screensaver.image.File)
+	test.Equals(t, "../testdata/dir/img-2.png", screensaver.image.File)
 }
