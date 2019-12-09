@@ -16,6 +16,8 @@ import (
 const screenSaverSwitchDelay = 15 * time.Second
 const returnToScreenSaverDelay = 30 * time.Second
 
+var log = util.Log{Context: "main"}
+
 type weatherstation struct {
 	window fyne.Window
 
@@ -50,7 +52,7 @@ func (app *weatherstation) startScreenSaverUpdates() {
 	go func() {
 		for {
 			file, _ := backgroundImages.Next()
-			fmt.Printf("Switching to %s\n", file)
+			log.D("startScreenSaverUpdates", fmt.Sprintf("Switching to %s", file))
 			if err := app.screenSaver.SetBackground(file); err != nil {
 				app.showError(err)
 			}
@@ -63,9 +65,10 @@ func (app *weatherstation) handleScreenSaverTouches() {
 	go func() {
 		for {
 			<-app.screenSaver.Touches
+			log.D("handleScreenSaverTouches", "Switching to weather")
 			app.showWeatherInfo()
 			time.Sleep(returnToScreenSaverDelay)
-			fmt.Printf("Switching back to screensaver\n")
+			log.D("handleScreenSaverTouches", "Switching back to screensaver")
 			app.showScreenSaver()
 		}
 	}()
