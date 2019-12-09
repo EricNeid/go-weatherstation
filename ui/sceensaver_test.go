@@ -2,7 +2,7 @@ package ui
 
 import "testing"
 
-import "github.com/EricNeid/go-netconvert/internal/test"
+import "github.com/EricNeid/go-weatherstation/internal/test"
 
 func TestNew(t *testing.T) {
 	// action

@@ -1,4 +1,4 @@
-module github.com/EricNeid/go-netconvert
+module github.com/EricNeid/go-weatherstation
 
 go 1.12
 

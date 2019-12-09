@@ -2,7 +2,7 @@ package util
 
 import "testing"
 
-import "github.com/EricNeid/go-netconvert/internal/test"
+import "github.com/EricNeid/go-weatherstation/internal/test"
 
 func TestNext(t *testing.T) {
 	// arrange

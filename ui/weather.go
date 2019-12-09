@@ -6,8 +6,8 @@ import (
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/widget"
-	"github.com/EricNeid/go-netconvert/res"
-	"github.com/EricNeid/go-netconvert/util"
+	"github.com/EricNeid/go-weatherstation/res"
+	"github.com/EricNeid/go-weatherstation/util"
 )
 
 // Weather represents information view for weather information
