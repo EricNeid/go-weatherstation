@@ -2,19 +2,20 @@ package ui
 
 import (
 	"fmt"
-
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-weatherstation/res"
 	"github.com/EricNeid/go-weatherstation/util"
+	"time"
 )
 
 // Weather represents information view for weather information
 type Weather struct {
 	widget.Box
 	background *canvas.Image
+	clock      *widget.Label
 
 	CloseTouches chan bool
 }
@@ -24,6 +25,7 @@ func NewWeather() *Weather {
 	weather := &Weather{
 		widget.Box{},
 		&canvas.Image{FillMode: canvas.ImageFillOriginal},
+		widget.NewLabel("Clock"),
 		make(chan bool),
 	}
 	weather.ExtendBaseWidget(weather)
@@ -35,7 +37,7 @@ func NewWeather() *Weather {
 			weather.CloseTouches <- true
 		}),
 		layout.NewSpacer(),
-		widget.NewLabel("time"),
+		weather.clock,
 	)
 
 	center := widget.NewLabel("Center")
@@ -59,4 +61,10 @@ func (weather *Weather) SetBackground(filepath string) error {
 	weather.background.File = filepath
 	weather.background.Refresh()
 	return nil
+}
+
+// SetTime sets the time to be displayed.
+func (weather *Weather) SetTime(t time.Time) {
+	str := t.Format("Mon 15:04")
+	weather.clock.SetText(str)
 }

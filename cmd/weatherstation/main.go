@@ -15,6 +15,7 @@ import (
 
 const screenSaverSwitchDelay = 15 * time.Second
 const returnToScreenSaverDelay = 30 * time.Second
+const clockUpdateDelay = 1 * time.Minute
 
 var log = util.Log{Context: "main"}
 
@@ -41,11 +42,11 @@ func main() {
 		weather:     ui.NewWeather(),
 	}
 
-	// not working
 	if err := app.weather.SetBackground("res/weather/background_clear.jpg"); err != nil {
 		app.showError(err)
 	}
 
+	app.startClockUpdates()
 	app.startScreenSaverUpdates()
 	app.handleScreenSaverTouches()
 	app.handleCloseButtonTouches()
@@ -84,6 +85,13 @@ func (app *weatherstation) handleCloseButtonTouches() {
 		<-app.weather.CloseTouches
 		log.D("handleCloseButtonTouches", "Closing app")
 		app.app.Quit()
+	}()
+}
+
+func (app *weatherstation) startClockUpdates() {
+	go func() {
+		app.weather.SetTime(time.Now())
+		time.Sleep(clockUpdateDelay)
 	}()
 }
 
