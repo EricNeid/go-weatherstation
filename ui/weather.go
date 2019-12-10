@@ -13,6 +13,8 @@ import (
 	"github.com/EricNeid/go-weatherstation/util"
 )
 
+var log = util.Log{Context: "weather"}
+
 // Weather represents information view for weather information
 type Weather struct {
 	widget.Box
@@ -88,6 +90,7 @@ func (weather *Weather) SetTime(t time.Time) {
 
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
 func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeather) {
-	weather.city.Text = data.Name
-	weather.currentTemperature.Text = fmt.Sprintf(res.GetLabel("currentTemperature"), data.Main.Temp)
+	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
+	weather.city.SetText(data.Name)
+	weather.currentTemperature.SetText(fmt.Sprintf(res.GetLabel("currentTemperature"), data.Main.Temp))
 }

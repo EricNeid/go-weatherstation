@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io/ioutil"
 	"time"
 
 	"fyne.io/fyne"
@@ -9,13 +10,17 @@ import (
 	"fyne.io/fyne/dialog"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-weatherstation/res"
+	"github.com/EricNeid/go-weatherstation/services"
 	"github.com/EricNeid/go-weatherstation/ui"
 	"github.com/EricNeid/go-weatherstation/util"
 )
 
-const screenSaverSwitchDelay = 15 * time.Second
-const returnToScreenSaverDelay = 30 * time.Second
+const screenSaverSwitchDelay = 30 * time.Second
+const returnToScreenSaverDelay = 45 * time.Second
 const clockUpdateDelay = 1 * time.Minute
+const weatherUpdateDelay = 1 * time.Hour
+
+const city = "Berlin"
 
 var log = util.Log{Context: "main"}
 
@@ -26,6 +31,8 @@ type weatherstation struct {
 	container   *widget.Box
 	screenSaver *ui.ScreenSaver
 	weather     *ui.Weather
+
+	openWeatherKey string
 }
 
 func main() {
@@ -41,16 +48,28 @@ func main() {
 		screenSaver: ui.NewScreenSaver(),
 		weather:     ui.NewWeather(),
 	}
+	app.loadKey()
 
+	// this should later be set from current weather
 	if err := app.weather.SetBackground("res/weather/background_clear.jpg"); err != nil {
 		app.showError(err)
 	}
 
 	app.startClockUpdates()
 	app.startScreenSaverUpdates()
+	app.startWeatherInformationUpdates()
 	app.handleScreenSaverTouches()
 	app.handleCloseButtonTouches()
 	app.start()
+}
+
+func (app *weatherstation) loadKey() {
+	key, err := ioutil.ReadFile("api.key")
+	if err != nil {
+		app.showError(err)
+	} else {
+		app.openWeatherKey = string(key)
+	}
 }
 
 func (app *weatherstation) startScreenSaverUpdates() {
@@ -96,6 +115,21 @@ func (app *weatherstation) startClockUpdates() {
 	}()
 }
 
+func (app *weatherstation) startWeatherInformationUpdates() {
+	go func() {
+		log.D("startWeatherInformationUpdates", "Update weather information")
+
+		current, err := services.GetWeather(app.openWeatherKey, city)
+		if err != nil {
+			app.showError(err)
+		} else {
+			app.weather.SetCurrentTemperatureData(*current)
+		}
+
+		time.Sleep(weatherUpdateDelay)
+	}()
+}
+
 func (app *weatherstation) start() {
 	app.window.SetFullScreen(false)
 	app.window.SetContent(app.container)
@@ -116,4 +150,8 @@ func (app *weatherstation) showWeatherInfo() {
 
 func (app *weatherstation) showError(err error) {
 	dialog.ShowError(err, app.window)
+}
+
+func (app *weatherstation) showInfo(msg string) {
+	dialog.ShowInformation("foo", msg, app.window)
 }

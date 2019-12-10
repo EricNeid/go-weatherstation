@@ -1,3 +1,4 @@
 *.exe
 deploy.bat
 .vscode/launch.json
+**/api.key
