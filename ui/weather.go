@@ -2,13 +2,15 @@ package ui
 
 import (
 	"fmt"
+	"time"
+
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
+	"github.com/EricNeid/go-openweather"
 	"github.com/EricNeid/go-weatherstation/res"
 	"github.com/EricNeid/go-weatherstation/util"
-	"time"
 )
 
 // Weather represents information view for weather information
@@ -24,41 +26,48 @@ type Weather struct {
 
 // NewWeather constructs a new instance of a NewWeather widget.
 func NewWeather() *Weather {
-	weather := &Weather{
+	w := &Weather{
 		widget.Box{},
 		&canvas.Image{FillMode: canvas.ImageFillOriginal},
-		widget.NewLabel("Clock"),
 		widget.NewLabel("City"),
 		widget.NewLabel("Current Temperature"),
+		widget.NewLabel("Clock"),
 		make(chan bool),
 	}
-	weather.ExtendBaseWidget(weather)
+	w.ExtendBaseWidget(w)
+	w.city.Alignment = fyne.TextAlignCenter
+	w.city.TextStyle.Bold = true
+	w.currentTemperature.Alignment = fyne.TextAlignCenter
 
 	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
-		widget.NewVBox(weather.city, weather.currentTemperature),
+		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+			w.city,
+			w.currentTemperature,
+		),
+		widget.NewVBox(),
 		layout.NewSpacer(),
 	)
 
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		widget.NewButton(res.GetLabel("close"), func() {
-			weather.CloseTouches <- true
+			w.CloseTouches <- true
 		}),
 		layout.NewSpacer(),
-		weather.clock,
+		w.clock,
 	)
 
 	center := widget.NewLabel("Center")
 
-	weather.Children = []fyne.CanvasObject{
+	w.Children = []fyne.CanvasObject{
 		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 			fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-				weather.background,
+				w.background,
 			),
 			fyne.NewContainerWithLayout(layout.NewBorderLayout(header, footer, nil, nil), header, footer, center),
 		),
 	}
-	return weather
+	return w
 }
 
 // SetBackground changes the background image of the weather screen.
@@ -75,4 +84,10 @@ func (weather *Weather) SetBackground(filepath string) error {
 func (weather *Weather) SetTime(t time.Time) {
 	str := t.Format("Mon 15:04")
 	weather.clock.SetText(str)
+}
+
+// SetCurrentTemperatureData updates header (city and current temperature) with the given information.
+func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeather) {
+	weather.city.Text = data.Name
+	weather.currentTemperature.Text = fmt.Sprintf(res.GetLabel("currentTemperature"), data.Main.Temp)
 }

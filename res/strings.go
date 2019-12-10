@@ -30,6 +30,10 @@ var Labels = map[string]map[Locale]string{
 		DE: "Schließen",
 		EN: "Close",
 	},
+	"currentTemperature": {
+		DE: "aktuelle Temperatur: %.2f°",
+		EN: "current temperature: %.2f°",
+	},
 }
 
 // GetLabel returns localiced label for given key. See Labels for valid keys
