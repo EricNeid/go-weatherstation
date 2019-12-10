@@ -50,11 +50,6 @@ func main() {
 	}
 	app.loadKey()
 
-	// this should later be set from current weather
-	if err := app.weather.SetBackground("res/weather/background_clear.jpg"); err != nil {
-		app.showError(err)
-	}
-
 	app.startClockUpdates()
 	app.startScreenSaverUpdates()
 	app.startWeatherInformationUpdates()

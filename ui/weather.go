@@ -63,6 +63,7 @@ func NewWeather() *Weather {
 	w.today.header.SetText(res.GetLabel("today"))
 	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
 	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
+	w.SetBackground("res/weather/background_tornado.jpg")
 
 	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
@@ -153,6 +154,10 @@ func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeathe
 // SetForecastTemperatureData updates the forecast displayed with the given information.
 func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecast5) {
 	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
+
+	condition := data.List[0].Weather[0].ID
+	image, _ := res.GetBackgroundImage(condition)
+	weather.SetBackground(image)
 
 	weather.today.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[0].Temp.Day))
 	weather.today.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[0].Temp.Min))
