@@ -39,6 +39,7 @@ func NewScreenSaver() *ScreenSaver {
 		make(chan *fyne.PointEvent),
 	}
 	s.ExtendBaseWidget(s)
+	s.clock.TextStyle.Bold = true
 
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),

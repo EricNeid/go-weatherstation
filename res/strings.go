@@ -30,9 +30,13 @@ var Labels = map[string]map[Locale]string{
 		DE: "Schließen",
 		EN: "Close",
 	},
-	"currentTemperature": {
+	"currenttemperature": {
 		DE: "aktuelle Temperatur: %.2f°",
 		EN: "current temperature: %.2f°",
+	},
+	"lastupdate": {
+		DE: "Stand: %s",
+		EN: "last update: %s",
 	},
 }
 

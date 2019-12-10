@@ -18,10 +18,12 @@ var log = util.Log{Context: "weather"}
 // Weather represents information view for weather information
 type Weather struct {
 	widget.Box
+
 	background         *canvas.Image
 	city               *widget.Label
 	currentTemperature *widget.Label
 	clock              *widget.Label
+	lastUpdate         *widget.Label
 
 	CloseTouches chan bool
 }
@@ -42,12 +44,15 @@ func NewWeather() *Weather {
 		widget.NewLabel("City"),
 		widget.NewLabel("Current Temperature"),
 		widget.NewLabel("Clock"),
+		widget.NewLabel("Last update"),
 		make(chan bool),
 	}
 	w.ExtendBaseWidget(w)
 	w.city.Alignment = fyne.TextAlignCenter
 	w.city.TextStyle.Bold = true
 	w.currentTemperature.Alignment = fyne.TextAlignCenter
+	w.clock.TextStyle.Bold = true
+	w.lastUpdate.Alignment = fyne.TextAlignCenter
 
 	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
@@ -78,7 +83,10 @@ func NewWeather() *Weather {
 
 	center := fyne.NewContainerWithLayout(layout.NewGridLayout(3),
 		todayForecast.layout,
-		tomorrowForecast.layout,
+		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+			tomorrowForecast.layout,
+			w.lastUpdate,
+		),
 		afterTomorrowForecast.layout,
 	)
 
@@ -135,5 +143,7 @@ func (weather *Weather) SetTime(t time.Time) {
 func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeather) {
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
 	weather.city.SetText(data.Name)
-	weather.currentTemperature.SetText(fmt.Sprintf(res.GetLabel("currentTemperature"), data.Main.Temp))
+	weather.currentTemperature.SetText(fmt.Sprintf(res.GetLabel("currenttemperature"), data.Main.Temp))
+
+	weather.lastUpdate.SetText(fmt.Sprintf(res.GetLabel("lastupdate"), time.Now().Format("Mon 15:04")))
 }
