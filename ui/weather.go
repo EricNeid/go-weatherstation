@@ -26,6 +26,14 @@ type Weather struct {
 	CloseTouches chan bool
 }
 
+type forecast struct {
+	header             *widget.Label
+	dayTemperature     *widget.Label
+	lowestTemperature  *widget.Label
+	highestTemperature *widget.Label
+	layout             *fyne.Container
+}
+
 // NewWeather constructs a new instance of a NewWeather widget.
 func NewWeather() *Weather {
 	w := &Weather{
@@ -59,7 +67,20 @@ func NewWeather() *Weather {
 		w.clock,
 	)
 
-	center := widget.NewLabel("Center")
+	todayForecast := newForecast()
+	todayForecast.header.SetText(res.GetLabel("today"))
+
+	tomorrowForecast := newForecast()
+	tomorrowForecast.header.SetText(res.GetLabel("tomorrow"))
+
+	afterTomorrowForecast := newForecast()
+	afterTomorrowForecast.header.SetText(res.GetLabel("aftertomorrow"))
+
+	center := fyne.NewContainerWithLayout(layout.NewGridLayout(3),
+		todayForecast.layout,
+		tomorrowForecast.layout,
+		afterTomorrowForecast.layout,
+	)
 
 	w.Children = []fyne.CanvasObject{
 		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
@@ -70,6 +91,28 @@ func NewWeather() *Weather {
 		),
 	}
 	return w
+}
+
+func newForecast() forecast {
+	forecast := forecast{
+		header:             widget.NewLabel("header"),
+		dayTemperature:     widget.NewLabel("dayTemperature"),
+		lowestTemperature:  widget.NewLabel("lowestTemperature"),
+		highestTemperature: widget.NewLabel("highestTemperature"),
+	}
+	forecast.layout = fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		forecast.header,
+		forecast.dayTemperature,
+		forecast.lowestTemperature,
+		forecast.highestTemperature,
+	)
+	forecast.header.Alignment = fyne.TextAlignCenter
+	forecast.header.TextStyle.Bold = true
+	forecast.dayTemperature.Alignment = fyne.TextAlignCenter
+	forecast.lowestTemperature.Alignment = fyne.TextAlignCenter
+	forecast.highestTemperature.Alignment = fyne.TextAlignCenter
+
+	return forecast
 }
 
 // SetBackground changes the background image of the weather screen.
