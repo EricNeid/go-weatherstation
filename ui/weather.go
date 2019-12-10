@@ -25,6 +25,10 @@ type Weather struct {
 	clock              *widget.Label
 	lastUpdate         *widget.Label
 
+	today         forecast
+	tomorrow      forecast
+	afterTomorrow forecast
+
 	CloseTouches chan bool
 }
 
@@ -32,7 +36,7 @@ type forecast struct {
 	header             *widget.Label
 	dayTemperature     *widget.Label
 	lowestTemperature  *widget.Label
-	highestTemperature *widget.Label
+	maximumTemperature *widget.Label
 	layout             *fyne.Container
 }
 
@@ -45,6 +49,9 @@ func NewWeather() *Weather {
 		widget.NewLabel("Current Temperature"),
 		widget.NewLabel("Clock"),
 		widget.NewLabel("Last update"),
+		newForecast(),
+		newForecast(),
+		newForecast(),
 		make(chan bool),
 	}
 	w.ExtendBaseWidget(w)
@@ -53,6 +60,9 @@ func NewWeather() *Weather {
 	w.currentTemperature.Alignment = fyne.TextAlignCenter
 	w.clock.TextStyle.Bold = true
 	w.lastUpdate.Alignment = fyne.TextAlignCenter
+	w.today.header.SetText(res.GetLabel("today"))
+	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
+	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
 
 	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
@@ -72,22 +82,13 @@ func NewWeather() *Weather {
 		w.clock,
 	)
 
-	todayForecast := newForecast()
-	todayForecast.header.SetText(res.GetLabel("today"))
-
-	tomorrowForecast := newForecast()
-	tomorrowForecast.header.SetText(res.GetLabel("tomorrow"))
-
-	afterTomorrowForecast := newForecast()
-	afterTomorrowForecast.header.SetText(res.GetLabel("aftertomorrow"))
-
 	center := fyne.NewContainerWithLayout(layout.NewGridLayout(3),
-		todayForecast.layout,
+		w.today.layout,
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
-			tomorrowForecast.layout,
+			w.tomorrow.layout,
 			w.lastUpdate,
 		),
-		afterTomorrowForecast.layout,
+		w.afterTomorrow.layout,
 	)
 
 	w.Children = []fyne.CanvasObject{
@@ -104,21 +105,21 @@ func NewWeather() *Weather {
 func newForecast() forecast {
 	forecast := forecast{
 		header:             widget.NewLabel("header"),
-		dayTemperature:     widget.NewLabel("dayTemperature"),
-		lowestTemperature:  widget.NewLabel("lowestTemperature"),
-		highestTemperature: widget.NewLabel("highestTemperature"),
+		dayTemperature:     widget.NewLabel("daytimetemperature"),
+		lowestTemperature:  widget.NewLabel("lowesttemperature"),
+		maximumTemperature: widget.NewLabel("maximumtemperature"),
 	}
 	forecast.layout = fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		forecast.header,
 		forecast.dayTemperature,
 		forecast.lowestTemperature,
-		forecast.highestTemperature,
+		forecast.maximumTemperature,
 	)
 	forecast.header.Alignment = fyne.TextAlignCenter
 	forecast.header.TextStyle.Bold = true
 	forecast.dayTemperature.Alignment = fyne.TextAlignCenter
 	forecast.lowestTemperature.Alignment = fyne.TextAlignCenter
-	forecast.highestTemperature.Alignment = fyne.TextAlignCenter
+	forecast.maximumTemperature.Alignment = fyne.TextAlignCenter
 
 	return forecast
 }
@@ -142,8 +143,26 @@ func (weather *Weather) SetTime(t time.Time) {
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
 func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeather) {
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
+
 	weather.city.SetText(data.Name)
 	weather.currentTemperature.SetText(fmt.Sprintf(res.GetLabel("currenttemperature"), data.Main.Temp))
 
 	weather.lastUpdate.SetText(fmt.Sprintf(res.GetLabel("lastupdate"), time.Now().Format("Mon 15:04")))
+}
+
+// SetForecastTemperatureData updates the forecast displayed with the given information.
+func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecast5) {
+	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
+
+	weather.today.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[0].Temp.Day))
+	weather.today.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[0].Temp.Min))
+	weather.today.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[0].Temp.Max))
+
+	weather.tomorrow.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[1].Temp.Day))
+	weather.tomorrow.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[1].Temp.Min))
+	weather.tomorrow.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[1].Temp.Max))
+
+	weather.afterTomorrow.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[2].Temp.Day))
+	weather.afterTomorrow.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[2].Temp.Min))
+	weather.afterTomorrow.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[2].Temp.Max))
 }

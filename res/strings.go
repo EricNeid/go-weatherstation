@@ -38,6 +38,18 @@ var Labels = map[string]map[Locale]string{
 		DE: "Stand: %s",
 		EN: "last update: %s",
 	},
+	"daytimetemperature": {
+		DE: "Tagestemperatur: %.2f°",
+		EN: "daytime temperature: %.2f°",
+	},
+	"lowesttemperature": {
+		DE: "Tiefsttemperatur: %.2f°",
+		EN: "lowest temperature: %.2f°",
+	},
+	"maximumtemperature": {
+		DE: "Höchsttemperatur: %.2f°",
+		EN: "maximum  temperature: %.2f°",
+	},
 }
 
 // GetLabel returns localiced label for given key. See Labels for valid keys

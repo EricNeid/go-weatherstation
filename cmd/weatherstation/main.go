@@ -126,6 +126,13 @@ func (app *weatherstation) startWeatherInformationUpdates() {
 			app.weather.SetCurrentTemperatureData(*current)
 		}
 
+		forecast, err := services.GetWeatherForecast(app.openWeatherKey, city)
+		if err != nil {
+			app.showError(err)
+		} else {
+			app.weather.SetForecastTemperatureData(*forecast)
+		}
+
 		time.Sleep(weatherUpdateDelay)
 	}()
 }
