@@ -91,6 +91,7 @@ func (app *weatherstation) handleCloseButtonTouches() {
 func (app *weatherstation) startClockUpdates() {
 	go func() {
 		app.weather.SetTime(time.Now())
+		app.screenSaver.SetTime(time.Now())
 		time.Sleep(clockUpdateDelay)
 	}()
 }

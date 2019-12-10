@@ -2,9 +2,11 @@ package ui
 
 import (
 	"fmt"
+	"time"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/canvas"
+	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-weatherstation/util"
 )
@@ -14,6 +16,7 @@ import (
 type ScreenSaver struct {
 	widget.Box
 	image   *canvas.Image
+	clock   *widget.Label
 	Touches chan *fyne.PointEvent
 }
 
@@ -32,10 +35,28 @@ func NewScreenSaver() *ScreenSaver {
 	s := &ScreenSaver{
 		widget.Box{},
 		&canvas.Image{FillMode: canvas.ImageFillOriginal},
+		widget.NewLabel("clock"),
 		make(chan *fyne.PointEvent),
 	}
 	s.ExtendBaseWidget(s)
-	s.Children = []fyne.CanvasObject{s.image}
+
+	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+		layout.NewSpacer(),
+		s.clock,
+	)
+
+	s.Children = []fyne.CanvasObject{
+		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+			fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+				s.image,
+			),
+			fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+				layout.NewSpacer(),
+				footer,
+			),
+		),
+	}
+
 	return s
 }
 
@@ -47,4 +68,10 @@ func (screenSaver *ScreenSaver) SetBackground(filepath string) error {
 	screenSaver.image.File = filepath
 	screenSaver.image.Refresh()
 	return nil
+}
+
+// SetTime sets the time to be displayed.
+func (screenSaver *ScreenSaver) SetTime(t time.Time) {
+	str := t.Format("Mon 15:04")
+	screenSaver.clock.SetText(str)
 }
