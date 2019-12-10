@@ -1,31 +1,49 @@
 package ui
 
-import "testing"
+import (
+	"testing"
+	"time"
 
-import "github.com/EricNeid/go-weatherstation/internal/test"
+	verify "github.com/EricNeid/go-weatherstation/internal/test"
+)
 
-func TestNew(t *testing.T) {
+func TestNewScreenSaver(t *testing.T) {
+	// arrange
+	testWindow := newTestWindow()
 	// action
-	screensaver := NewScreenSaver()
+	unit := NewScreenSaver()
+	testWindow.SetContent(unit)
 	// verify
-	test.Equals(t, 1, len(screensaver.Children))
+	verify.Equals(t, 1, len(unit.Children))
 }
 
 func TestSetBackground(t *testing.T) {
 	// arrange
-	screensaver := NewScreenSaver()
+	unit := NewScreenSaver()
+	newTestWindow().SetContent(unit)
 
 	// action
-	err := screensaver.SetBackground("../testdata/img-1.png")
+	err := unit.SetBackground("../testdata/img-1.png")
 	// verify that only on children is present
-	test.Ok(t, err)
-	test.Equals(t, 1, len(screensaver.Children))
-	test.Equals(t, "../testdata/img-1.png", screensaver.image.File)
+	verify.Ok(t, err)
+	verify.Equals(t, 1, len(unit.Children))
+	verify.Equals(t, "../testdata/img-1.png", unit.image.File)
 
 	// action
-	err = screensaver.SetBackground("../testdata/dir/img-2.png")
+	err = unit.SetBackground("../testdata/dir/img-2.png")
 	// verify that still only one children is present
-	test.Ok(t, err)
-	test.Equals(t, 1, len(screensaver.Children))
-	test.Equals(t, "../testdata/dir/img-2.png", screensaver.image.File)
+	verify.Ok(t, err)
+	verify.Equals(t, 1, len(unit.Children))
+	verify.Equals(t, "../testdata/dir/img-2.png", unit.image.File)
+}
+
+func TestScreenSaverSetTime(t *testing.T) {
+	// arrange
+	time := time.Now()
+	unit := NewScreenSaver()
+	newTestWindow().SetContent(unit)
+	// action
+	unit.SetTime(time)
+	// verify
+	verify.Equals(t, time.Format("Mon 15:04"), unit.clock.Text)
 }

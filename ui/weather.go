@@ -14,8 +14,10 @@ import (
 // Weather represents information view for weather information
 type Weather struct {
 	widget.Box
-	background *canvas.Image
-	clock      *widget.Label
+	background         *canvas.Image
+	city               *widget.Label
+	currentTemperature *widget.Label
+	clock              *widget.Label
 
 	CloseTouches chan bool
 }
@@ -26,11 +28,17 @@ func NewWeather() *Weather {
 		widget.Box{},
 		&canvas.Image{FillMode: canvas.ImageFillOriginal},
 		widget.NewLabel("Clock"),
+		widget.NewLabel("City"),
+		widget.NewLabel("Current Temperature"),
 		make(chan bool),
 	}
 	weather.ExtendBaseWidget(weather)
 
-	header := widget.NewLabel("Header")
+	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+		layout.NewSpacer(),
+		widget.NewVBox(weather.city, weather.currentTemperature),
+		layout.NewSpacer(),
+	)
 
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		widget.NewButton(res.GetLabel("close"), func() {
