@@ -40,3 +40,12 @@ func GetConditionIcon(weatherConditionIcon string) (fyne.Resource, error) {
 	url := fmt.Sprintf("http://openweathermap.org/img/w/%s.png", weatherConditionIcon)
 	return fyne.LoadResourceFromURLString(url)
 }
+
+// GetAppIcon returns the application icon.
+func GetAppIcon() fyne.Resource {
+	res, err := fyne.LoadResourceFromPath("res/ic-sunny.png")
+	if err != nil {
+		log.E("GetAppIcon", err)
+	}
+	return res
+}

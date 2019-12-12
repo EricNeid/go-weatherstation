@@ -39,6 +39,7 @@ func main() {
 	res.CurrentLocale = res.DE
 
 	a := app.New()
+	a.SetIcon(res.GetAppIcon())
 	w := a.NewWindow("Weatherinformation")
 	w.SetFixedSize(true)
 	w.Resize(fyne.NewSize(800, 480))
