@@ -37,5 +37,6 @@ func GetBackgroundImage(weatherConditionID int) (string, error) {
 // The given icon is converted to an URL and the resource is retrieved.
 // See https://openweathermap.org/weather-conditions for more details.
 func GetConditionIcon(weatherConditionIcon string) (fyne.Resource, error) {
-	return fyne.LoadResourceFromURLString("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
+	url := fmt.Sprintf("http://openweathermap.org/img/w/%s.png", weatherConditionIcon)
+	return fyne.LoadResourceFromURLString(url)
 }
