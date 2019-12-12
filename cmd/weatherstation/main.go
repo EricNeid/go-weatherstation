@@ -53,7 +53,7 @@ func main() {
 		screenSaver: ui.NewScreenSaver(),
 		weather:     ui.NewWeather(),
 	}
-	app.loadKey()
+	app.loadKey(args.keyFile)
 
 	app.startClockUpdates()
 	app.startScreenSaverUpdates(args.imageDir)
@@ -63,7 +63,7 @@ func main() {
 	app.start()
 }
 
-func (app *weatherstation) loadKey() {
+func (app *weatherstation) loadKey(keyFile string) {
 	key, err := ioutil.ReadFile("api.key")
 	if err != nil {
 		app.showError(err)
