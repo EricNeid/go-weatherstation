@@ -38,10 +38,13 @@ type weatherstation struct {
 func main() {
 	res.CurrentLocale = res.DE
 
+	args := parseArgs()
+
 	a := app.New()
 	a.SetIcon(res.GetAppIcon())
 	w := a.NewWindow("Weatherinformation")
 	w.SetFixedSize(true)
+	w.SetFullScreen(args.fullscreen)
 	w.Resize(fyne.NewSize(800, 480))
 	app := weatherstation{
 		app:         a,
@@ -53,7 +56,7 @@ func main() {
 	app.loadKey()
 
 	app.startClockUpdates()
-	app.startScreenSaverUpdates()
+	app.startScreenSaverUpdates(args.imageDir)
 	app.startWeatherInformationUpdates()
 	app.handleScreenSaverTouches()
 	app.handleCloseButtonTouches()
@@ -69,8 +72,8 @@ func (app *weatherstation) loadKey() {
 	}
 }
 
-func (app *weatherstation) startScreenSaverUpdates() {
-	backgroundImages := util.NewFileRingList("images")
+func (app *weatherstation) startScreenSaverUpdates(imageDir string) {
+	backgroundImages := util.NewFileRingList(imageDir)
 	go func() {
 		for {
 			file, _ := backgroundImages.Next()
