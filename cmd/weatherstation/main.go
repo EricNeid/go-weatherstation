@@ -145,7 +145,7 @@ func (app *weatherstation) start() {
 }
 
 func (app *weatherstation) showScreenSaver() {
-	if app.container.Children[0] == app.screenSaver {
+	if len(app.container.Children) > 0 && app.container.Children[0] == app.screenSaver {
 		return
 	}
 	app.container.Children = []fyne.CanvasObject{app.screenSaver}
@@ -153,7 +153,7 @@ func (app *weatherstation) showScreenSaver() {
 }
 
 func (app *weatherstation) showWeatherInfo() {
-	if app.container.Children[0] == app.weather {
+	if len(app.container.Children) > 0 && app.container.Children[0] == app.weather {
 		return
 	}
 	app.container.Children = []fyne.CanvasObject{app.weather}
