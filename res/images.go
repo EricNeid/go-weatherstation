@@ -4,6 +4,8 @@ import "fmt"
 import "strconv"
 import "github.com/EricNeid/go-weatherstation/util"
 
+import "fyne.io/fyne"
+
 var log = util.Log{Context: "images"}
 
 var backgroundWeather = map[int]string{
@@ -29,4 +31,11 @@ func GetBackgroundImage(weatherConditionID int) (string, error) {
 	}
 
 	return backgroundWeather[primaryCond], nil
+}
+
+// GetConditionIcon returns a new resource for given weather icon.
+// The given icon is converted to an URL and the resource is retrieved.
+// See https://openweathermap.org/weather-conditions for more details.
+func GetConditionIcon(weatherConditionIcon string) (fyne.Resource, error) {
+	return fyne.LoadResourceFromURLString("https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png")
 }

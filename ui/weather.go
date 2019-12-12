@@ -165,18 +165,38 @@ func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecas
 	image, _ := res.GetBackgroundImage(condition)
 	weather.SetBackground(image)
 
-	weather.today.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[0].Temp.Day))
-	weather.today.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[0].Temp.Min))
-	weather.today.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[0].Temp.Max))
-	weather.today.icon.File = "images/1.jpg"
+	weather.today.updateInformation(
+		data.List[0].Temp.Day,
+		data.List[0].Temp.Min,
+		data.List[0].Temp.Max,
+		data.List[0].Weather[0].Icon)
+	weather.tomorrow.updateInformation(
+		data.List[1].Temp.Day,
+		data.List[1].Temp.Min,
+		data.List[1].Temp.Max,
+		data.List[1].Weather[0].Icon)
+	weather.afterTomorrow.updateInformation(
+		data.List[2].Temp.Day,
+		data.List[2].Temp.Min,
+		data.List[2].Temp.Max,
+		data.List[2].Weather[0].Icon)
+}
 
-	weather.tomorrow.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[1].Temp.Day))
-	weather.tomorrow.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[1].Temp.Min))
-	weather.tomorrow.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[1].Temp.Max))
-	weather.tomorrow.icon.File = "images/2.jpg"
+func (forecast *forecast) updateInformation(
+	dayTimeTemperatue float64,
+	minTemperature float64,
+	maxTemperature float64,
+	conditionIcon string,
+) {
+	forecast.dayTemperature.SetText(
+		fmt.Sprintf(res.GetLabel("daytimetemperature"), dayTimeTemperatue))
+	forecast.lowestTemperature.SetText(
+		fmt.Sprintf(res.GetLabel("lowesttemperature"), minTemperature))
+	forecast.maximumTemperature.SetText(
+		fmt.Sprintf(res.GetLabel("maximumtemperature"), maxTemperature))
 
-	weather.afterTomorrow.dayTemperature.SetText(fmt.Sprintf(res.GetLabel("daytimetemperature"), data.List[2].Temp.Day))
-	weather.afterTomorrow.lowestTemperature.SetText(fmt.Sprintf(res.GetLabel("lowesttemperature"), data.List[2].Temp.Min))
-	weather.afterTomorrow.maximumTemperature.SetText(fmt.Sprintf(res.GetLabel("maximumtemperature"), data.List[2].Temp.Max))
-	weather.afterTomorrow.icon.File = "images/3.jpg"
+	res, _ := res.GetConditionIcon(conditionIcon)
+
+	forecast.icon.Resource = res
+	forecast.icon.Refresh()
 }
