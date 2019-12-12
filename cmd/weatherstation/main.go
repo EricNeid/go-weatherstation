@@ -41,6 +41,7 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("Weatherinformation")
 	w.SetFixedSize(true)
+	w.Resize(fyne.NewSize(800, 480))
 	app := weatherstation{
 		app:         a,
 		window:      w,
