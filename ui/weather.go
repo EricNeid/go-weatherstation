@@ -84,13 +84,13 @@ func NewWeather() *Weather {
 		w.clock,
 	)
 
-	center := fyne.NewContainerWithLayout(layout.NewGridLayout(3),
-		w.today.layout,
-		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+	center := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		fyne.NewContainerWithLayout(layout.NewGridLayout(3),
+			w.today.layout,
 			w.tomorrow.layout,
-			w.lastUpdate,
+			w.afterTomorrow.layout,
 		),
-		w.afterTomorrow.layout,
+		w.lastUpdate,
 	)
 
 	w.Children = []fyne.CanvasObject{
@@ -113,7 +113,7 @@ func newForecast() forecast {
 		icon:               &canvas.Image{},
 	}
 	forecast.icon.SetMinSize(fyne.NewSize(56, 56))
-	forecast.layout = fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+	forecast.layout = fyne.NewContainerWithLayout(layout.NewGridLayout(1),
 		forecast.header,
 		forecast.dayTemperature,
 		forecast.lowestTemperature,
