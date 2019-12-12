@@ -162,8 +162,12 @@ func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecas
 	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	condition := data.List[0].Weather[0].ID
-	image, _ := res.GetBackgroundImage(condition)
-	weather.SetBackground(image)
+	image, err := res.GetBackgroundImage(condition)
+	if err != nil {
+		log.E("SetForecastTemperatureData", err)
+	} else {
+		weather.SetBackground(image)
+	}
 
 	weather.today.updateInformation(
 		data.List[0].Temp.Day,
@@ -195,8 +199,11 @@ func (forecast *forecast) updateInformation(
 	forecast.maximumTemperature.SetText(
 		fmt.Sprintf(res.GetLabel("maximumtemperature"), maxTemperature))
 
-	res, _ := res.GetConditionIcon(conditionIcon)
-
-	forecast.icon.Resource = res
-	forecast.icon.Refresh()
+	res, err := res.GetConditionIcon(conditionIcon)
+	if err != nil {
+		log.E("updateInformation", err)
+	} else {
+		forecast.icon.Resource = res
+		forecast.icon.Refresh()
+	}
 }
