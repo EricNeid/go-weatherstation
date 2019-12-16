@@ -1,7 +1,7 @@
 package res
 
 import "testing"
-import verify "github.com/EricNeid/go-weatherstation/internal/test"
+import "github.com/EricNeid/go-weatherstation/internal/verify"
 
 func TestGetBackgroundImage(t *testing.T) {
 	// action

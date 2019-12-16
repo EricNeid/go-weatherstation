@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/EricNeid/go-openweather"
-	verify "github.com/EricNeid/go-weatherstation/internal/test"
+	"github.com/EricNeid/go-weatherstation/internal/verify"
 	"github.com/EricNeid/go-weatherstation/res"
 )
 

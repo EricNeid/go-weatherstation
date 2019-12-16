@@ -2,7 +2,7 @@ package util
 
 import "testing"
 import "time"
-import "github.com/EricNeid/go-weatherstation/internal/test"
+import "github.com/EricNeid/go-weatherstation/internal/verify"
 
 func TestIntervalContains_shouldReturnTrue(t *testing.T) {
 	// arrange
@@ -14,7 +14,7 @@ func TestIntervalContains_shouldReturnTrue(t *testing.T) {
 	// action
 	result := unit.Contains(testData)
 	// verify
-	test.Equals(t, true, result)
+	verify.Equals(t, true, result)
 }
 
 func TestIntervalContains_shouldReturnFalse(t *testing.T) {
@@ -27,5 +27,5 @@ func TestIntervalContains_shouldReturnFalse(t *testing.T) {
 	// action
 	result := unit.Contains(testData)
 	// verify
-	test.Equals(t, false, result)
+	verify.Equals(t, false, result)
 }

@@ -2,7 +2,7 @@ package util
 
 import "testing"
 
-import "github.com/EricNeid/go-weatherstation/internal/test"
+import "github.com/EricNeid/go-weatherstation/internal/verify"
 
 func TestNext(t *testing.T) {
 	// arrange
@@ -12,11 +12,11 @@ func TestNext(t *testing.T) {
 
 	// action & verify
 	result, _ := unit.Next()
-	test.Equals(t, "a", result)
+	verify.Equals(t, "a", result)
 	result, _ = unit.Next()
-	test.Equals(t, "b", result)
+	verify.Equals(t, "b", result)
 	result, _ = unit.Next()
-	test.Equals(t, "a", result)
+	verify.Equals(t, "a", result)
 }
 
 func TestNewFileRingList(t *testing.T) {
@@ -24,5 +24,5 @@ func TestNewFileRingList(t *testing.T) {
 	result := NewFileRingList("../testdata")
 
 	// verify
-	test.Equals(t, 2, len(result.Items))
+	verify.Equals(t, 2, len(result.Items))
 }
