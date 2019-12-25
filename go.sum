@@ -1,5 +1,6 @@
-fyne.io/fyne v1.2.0-beta1 h1:WMe+98gRMykIuRbJO/rXSSHLjJPQuVzSIIvnDpqpiyU=
 fyne.io/fyne v1.2.0-beta1/go.mod h1:orFQru4Lbr+wa/yGV+JRQnJV3CD6pb8wRFLV93Gky58=
+fyne.io/fyne v1.2.1 h1:0hicR1E+hZGwZUwN5LheR5SoPr/ror8fGzQR2qJcZkA=
+fyne.io/fyne v1.2.1/go.mod h1:Ab+3DIB/FVteW0y4DXfmZv4N3JdnCBh2lHkINI02BOU=
 github.com/EricNeid/go-openweather v0.0.2 h1:ThFIyvgt6sTmhfdU7IBB38APz26/2F6JDPDHI26+iBY=
 github.com/EricNeid/go-openweather v0.0.2/go.mod h1:VpGos7PXf/6xNHnvi3nj9BlzRNdZFf8pje1XF4yr3Ug=
 github.com/Kodeworks/golang-image-ico v0.0.0-20141118225523-73f0f4cfade9/go.mod h1:7uhhqiBaR4CpN0k9rMjOtjpcfGd6DG2m04zQxKnWQ0I=
