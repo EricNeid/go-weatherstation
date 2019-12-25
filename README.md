@@ -21,4 +21,9 @@ To use the application, grep yourself a free key and put it in a file named
 
 ## Getting started
 
-TODO describe cli interface.
+```bash
+cd cmd/weatherstation
+
+weatherstation.exe
+weatherstation.exe -h
+```
