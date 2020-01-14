@@ -2,7 +2,7 @@ package res
 
 import "fmt"
 import "strconv"
-import "github.com/EricNeid/go-weatherstation/util"
+import "EricNeid/go-weatherstation/util"
 
 import "fyne.io/fyne"
 

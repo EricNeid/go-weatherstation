@@ -9,10 +9,10 @@ import (
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/dialog"
 	"fyne.io/fyne/widget"
-	"github.com/EricNeid/go-weatherstation/res"
-	"github.com/EricNeid/go-weatherstation/services"
-	"github.com/EricNeid/go-weatherstation/ui"
-	"github.com/EricNeid/go-weatherstation/util"
+	"EricNeid/go-weatherstation/res"
+	"EricNeid/go-weatherstation/services"
+	"EricNeid/go-weatherstation/ui"
+	"EricNeid/go-weatherstation/util"
 )
 
 const screenSaverSwitchDelay = 30 * time.Second

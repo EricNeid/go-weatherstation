@@ -1,8 +1,7 @@
 package util
 
 import "testing"
-
-import "github.com/EricNeid/go-weatherstation/internal/verify"
+import "EricNeid/go-weatherstation/internal/verify"
 
 func TestIsFilePresent_shouldReturnTrue(t *testing.T) {
 	// action

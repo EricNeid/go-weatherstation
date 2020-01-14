@@ -1,4 +1,4 @@
-module github.com/EricNeid/go-weatherstation
+module EricNeid/go-weatherstation
 
 go 1.12
 

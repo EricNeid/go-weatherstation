@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
+	"EricNeid/go-weatherstation/internal/verify"
+	"EricNeid/go-weatherstation/res"
 	"github.com/EricNeid/go-openweather"
-	"github.com/EricNeid/go-weatherstation/internal/verify"
-	"github.com/EricNeid/go-weatherstation/res"
 )
 
 func TestNewWeather(t *testing.T) {

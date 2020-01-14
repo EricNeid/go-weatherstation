@@ -2,7 +2,7 @@ package util
 
 import "testing"
 import "time"
-import "github.com/EricNeid/go-weatherstation/internal/verify"
+import "EricNeid/go-weatherstation/internal/verify"
 
 func TestIntervalContains_shouldReturnTrue(t *testing.T) {
 	// arrange
