@@ -3,12 +3,13 @@
 package weatherstation
 
 import (
-	"EricNeid/go-weatherstation/services"
-	"EricNeid/go-weatherstation/ui"
-	"EricNeid/go-weatherstation/util"
 	"fmt"
 	"io/ioutil"
 	"time"
+
+	"github.com/EricNeid/go-weatherstation/services"
+	"github.com/EricNeid/go-weatherstation/ui"
+	"github.com/EricNeid/go-weatherstation/util"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/dialog"

@@ -9,8 +9,8 @@ import (
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-openweather"
-	"EricNeid/go-weatherstation/res"
-	"EricNeid/go-weatherstation/util"
+	"github.com/EricNeid/go-weatherstation/res"
+	"github.com/EricNeid/go-weatherstation/util"
 )
 
 var log = util.Log{Context: "weather"}

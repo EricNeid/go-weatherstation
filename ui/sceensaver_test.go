@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"EricNeid/go-weatherstation/internal/verify"
+	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 
 func TestNewScreenSaver(t *testing.T) {

@@ -1,10 +1,12 @@
 package res
 
-import "fmt"
-import "strconv"
-import "EricNeid/go-weatherstation/util"
+import (
+	"fmt"
+	"strconv"
 
-import "fyne.io/fyne"
+	"fyne.io/fyne"
+	"github.com/EricNeid/go-weatherstation/util"
+)
 
 var log = util.Log{Context: "images"}
 

@@ -1,7 +1,7 @@
 package util
 
 import "testing"
-import "EricNeid/go-weatherstation/internal/verify"
+import "github.com/EricNeid/go-weatherstation/internal/verify"
 
 func TestNext(t *testing.T) {
 	// arrange

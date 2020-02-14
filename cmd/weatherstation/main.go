@@ -1,8 +1,8 @@
 package main
 
 import (
-	"EricNeid/go-weatherstation"
-	"EricNeid/go-weatherstation/res"
+	"github.com/EricNeid/go-weatherstation"
+	"github.com/EricNeid/go-weatherstation/res"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"

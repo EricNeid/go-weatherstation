@@ -8,7 +8,7 @@ import (
 	"fyne.io/fyne/canvas"
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
-	"EricNeid/go-weatherstation/util"
+	"github.com/EricNeid/go-weatherstation/util"
 )
 
 // ScreenSaver represents a clickable background image.
