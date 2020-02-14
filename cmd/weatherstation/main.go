@@ -3,15 +3,12 @@ package main
 import (
 	"EricNeid/go-weatherstation"
 	"EricNeid/go-weatherstation/res"
-	"EricNeid/go-weatherstation/util"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 )
 
 const city = "Berlin"
-
-var log = util.Log{Context: "main"}
 
 func main() {
 	res.CurrentLocale = res.DE
