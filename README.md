@@ -1,3 +1,5 @@
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-Ready--to--Code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/EricNeid/go-weatherstation) 
+
 # go-WeatherStation -- go away bad weather
 
 Tool to display your pictures, as well as the current weather information. Intended to be run on your local raspberry pi.
