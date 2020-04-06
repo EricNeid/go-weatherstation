@@ -1,4 +1,6 @@
-*.exe
+cmd/weatherstation/weatherstation.exe
+cmd/weatherstation/weatherstation
+
 deploy.bat
 .vscode/launch.json
 **/api.key

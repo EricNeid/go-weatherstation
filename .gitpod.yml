@@ -1,4 +1,5 @@
 tasks:
-  - init: make test
+  - init: make all
+    command: cd cmd/weatherstation && chmod +x weatherstation && ./weatherstation
 image:
   file: .gitpod.Dockerfile
