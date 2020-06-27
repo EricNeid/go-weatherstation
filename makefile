@@ -13,4 +13,8 @@ run-linux:
 	cd cmd/weatherstation && weatherstation
 
 cross-build-windows:
-	cd cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross && fyne-cross windows
+	cd cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross \
+		&& fyne-cross windows \
+		&& cp -r assets fyne-cross/bin/windows-amd64 \
+		&& cp -r images fyne-cross/bin/windows-amd64 \
+		&& echo replaceMe>fyne-cross/bin/windows-amd64/api.key
