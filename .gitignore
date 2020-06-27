@@ -1,6 +1,6 @@
 cmd/weatherstation/weatherstation.exe
 cmd/weatherstation/weatherstation
-
+cmd/weatherstation/fyne-cross
 deploy.bat
 .vscode/launch.json
 **/api.key
