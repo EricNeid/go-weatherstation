@@ -1,6 +1,7 @@
 package main
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
@@ -10,6 +11,7 @@ import (
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
+	"fyne.io/fyne/dialog"
 )
 
 type args struct {
@@ -26,13 +28,26 @@ func main() {
 	args := parseArgs()
 
 	a := app.New()
-	a.SetIcon(res.GetAppIcon())
 	w := a.NewWindow("Weatherinformation")
+
+	appIcon, err := res.GetAppIcon()
+	if err != nil {
+		dialog.ShowError(errors.New("Could not load app icon"), w)
+	}
+	if _, err := os.Stat(args.keyFile); os.IsNotExist(err) {
+		dialog.ShowError(errors.New("Could not load api key"), w)
+	}
+	if _, err := os.Stat(args.imageDir); os.IsNotExist(err) {
+		dialog.ShowError(errors.New("Could not find image directory"), w)
+	}
+
+	a.SetIcon(appIcon)
 	w.SetFixedSize(true)
 	w.SetFullScreen(args.fullscreen)
 	w.Resize(fyne.NewSize(800, 480))
 
 	app := weatherstation.NewApp(a, w, city, args.keyFile, args.imageDir)
+
 	app.Start()
 }
 

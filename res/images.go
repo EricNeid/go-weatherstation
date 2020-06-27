@@ -44,10 +44,10 @@ func GetConditionIcon(weatherConditionIcon string) (fyne.Resource, error) {
 }
 
 // GetAppIcon returns the application icon.
-func GetAppIcon() fyne.Resource {
+func GetAppIcon() (fyne.Resource, error) {
 	res, err := fyne.LoadResourceFromPath("assets/ic-sunny.png")
 	if err != nil {
 		log.E("GetAppIcon", err)
 	}
-	return res
+	return res, err
 }
