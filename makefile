@@ -1,10 +1,10 @@
 all: test build
 
-install-crosscompile-tools:
-	go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross
-
 build:
 	cd cmd/weatherstation && go build
+
+test:
+	go test ./...
 
 run-windows:
 	cd cmd/weatherstation && weatherstation.exe
@@ -12,5 +12,5 @@ run-windows:
 run-linux:
 	cd cmd/weatherstation && weatherstation
 
-test:
-	go test ./...
+cross-build-windows:
+	cd cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross && fyne-cross windows
