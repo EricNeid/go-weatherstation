@@ -18,3 +18,10 @@ cross-build-windows:
 		&& cp -r assets fyne-cross/bin/windows-amd64 \
 		&& cp -r images fyne-cross/bin/windows-amd64 \
 		&& echo replaceMe>fyne-cross/bin/windows-amd64/api.key
+
+cross-build-raspberry:
+	cd cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross \
+		&& fyne-cross linux -arch=arm \
+		&& cp -r assets fyne-cross/bin/linux-arm \
+		&& cp -r images fyne-cross/bin/linux-arm \
+		&& echo replaceMe>fyne-cross/bin/linux-arm/api.key
