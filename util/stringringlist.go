@@ -2,8 +2,10 @@ package util
 
 import (
 	"errors"
+	"math/rand"
 	"os"
 	"path/filepath"
+	"time"
 )
 
 // StringRingList represents a ringed list of strings.
@@ -31,6 +33,14 @@ func (list *StringRingList) Next() (string, error) {
 	}
 
 	return item, nil
+}
+
+// Shuffle randomizes the order of elements in the given list
+func (list *StringRingList) Shuffle() {
+	rand.Seed(time.Now().UnixNano())
+	rand.Shuffle(len(list.Items), func(i, j int) {
+		list.Items[i], list.Items[j] = list.Items[j], list.Items[i]
+	})
 }
 
 // NewFileRingList will construct a new StringRingList containing the relative pathes to
