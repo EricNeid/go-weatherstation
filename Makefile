@@ -6,11 +6,17 @@ build:
 test:
 	go test ./...
 
+
+linux-dependencies:
+	sudo apt-get install libegl1-mesa-dev and xorg-dev
+
+
 run-windows:
 	cd cmd/weatherstation && weatherstation.exe
 
 run-linux:
 	cd cmd/weatherstation && weatherstation
+
 
 cross-build-windows:
 	cd cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross \
