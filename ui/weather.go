@@ -82,7 +82,6 @@ func NewWeather() *Weather {
 		w.clock,
 	)
 	center := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
-		layout.NewSpacer(),
 		fyne.NewContainerWithLayout(layout.NewGridLayout(3),
 			w.today.layout,
 			w.tomorrow.layout,
@@ -92,10 +91,12 @@ func NewWeather() *Weather {
 	)
 	w.UI = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		w.background,
-		fyne.NewContainerWithLayout(layout.NewBorderLayout(header, footer, nil, nil),
+		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			header,
-			footer,
+			layout.NewSpacer(),
 			center,
+			layout.NewSpacer(),
+			footer,
 		),
 	)
 
