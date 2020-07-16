@@ -5,6 +5,7 @@ package weatherstation
 import (
 	"fmt"
 	"io/ioutil"
+	"strings"
 	"time"
 
 	"github.com/EricNeid/go-weatherstation/services"
@@ -78,7 +79,12 @@ func (app *App) loadKey(keyFile string) {
 	if err != nil {
 		app.showError(err)
 	} else {
-		app.openWeatherKey = string(key)
+		// cleanup api key
+		apiKey := strings.TrimSpace(string(key))
+		apiKey = strings.ReplaceAll(apiKey, "\n", "")
+		apiKey = strings.ReplaceAll(apiKey, "\r", "")
+
+		app.openWeatherKey = string(apiKey)
 	}
 }
 
