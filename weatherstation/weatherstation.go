@@ -22,6 +22,13 @@ const clockUpdateDelay = 1 * time.Minute
 const weatherUpdateDelay = 1 * time.Hour
 const checkScreenDelay = 1 * time.Minute
 
+type screen int
+
+const (
+	screensaver        screen = iota
+	weatherinformation screen = iota
+)
+
 // fixedShowWeather set the time when the weather screen is always displayed
 // (not only when user touches the screen).
 // For example in the morning you may always want to see the weather information.
@@ -43,6 +50,8 @@ type App struct {
 	weather     *ui.Weather
 
 	openWeatherKey string
+
+	currentScreen chan screen
 }
 
 // NewApp generates new instance of weatherstation application.
@@ -58,15 +67,19 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 			uiScreenSaver.UI,
 			uiWeather.UI,
 		),
-		weather:     uiWeather,
-		screenSaver: uiScreenSaver,
+		weather:       uiWeather,
+		screenSaver:   uiScreenSaver,
+		currentScreen: make(chan screen),
 	}
 
 	app.loadKey(keyFile)
+
 	app.startClockUpdates()
-	app.startCurrentScreenHandler()
+	app.startCheckScreen()
 	app.startScreenSaverUpdates(imageDir)
 	app.startWeatherInformationUpdates(city)
+	app.startCurrentScreenHandler()
+
 	app.handleScreenSaverTouches()
 	app.handleCloseButtonTouches()
 
@@ -78,7 +91,7 @@ func (app *App) Start() {
 	log.D("start", "")
 	app.window.SetContent(app.container)
 
-	app.showScreenSaver()
+	app.currentScreen <- screensaver
 
 	app.window.ShowAndRun()
 }
@@ -102,7 +115,7 @@ func (app *App) handleScreenSaverTouches() {
 		for {
 			<-app.screenSaver.Taps
 			log.D("handleScreenSaverTouches", "Switching to weather")
-			app.showWeatherInfo()
+			app.currentScreen <- weatherinformation
 		}
 	}()
 }
@@ -131,17 +144,17 @@ func (app *App) startScreenSaverUpdates(imageDir string) {
 	}()
 }
 
-// startCurrentScreenHandler check which screen should be displayed on a regular basis.
+// startCheckScreen checks which screen should be displayed on a regular basis.
 // During fixedShowWeather the weather screen should be display by default.0
-func (app *App) startCurrentScreenHandler() {
-	log.D("startCurrentScreenHandler", "")
+func (app *App) startCheckScreen() {
+	log.D("startCheckScreen", "")
 	go func() {
 		for {
-			log.D("startCurrentScreenHandler", "Check screen to display")
+			log.D("startCheckScreen", "Check screen to display")
 			if fixedShowWeather.Contains(time.Now()) {
-				app.showWeatherInfo()
+				app.currentScreen <- weatherinformation
 			} else {
-				app.showScreenSaver()
+				app.currentScreen <- screensaver
 			}
 			time.Sleep(checkScreenDelay)
 		}
@@ -169,14 +182,14 @@ func (app *App) startWeatherInformationUpdates(city string) {
 			if err != nil {
 				app.showError(err)
 			} else {
-				app.weather.SetCurrentTemperatureData(*current)
+				app.weather.SetCurrentTemperatureData(current)
 			}
 
 			forecast, err := weather.Forecast(app.openWeatherKey, city)
 			if err != nil {
 				app.showError(err)
 			} else {
-				app.weather.SetForecastTemperatureData(*forecast)
+				app.weather.SetForecastTemperatureData(forecast)
 			}
 
 			time.Sleep(weatherUpdateDelay)
@@ -184,18 +197,21 @@ func (app *App) startWeatherInformationUpdates(city string) {
 	}()
 }
 
-func (app *App) showScreenSaver() {
-	log.D("showScreenSaver", "")
-	app.screenSaver.Show()
-	app.weather.Hide()
-	app.container.Refresh()
-}
-
-func (app *App) showWeatherInfo() {
-	log.D("showWeatherInfo", "")
-	app.weather.Show()
-	app.screenSaver.Hide()
-	app.container.Refresh()
+func (app *App) startCurrentScreenHandler() {
+	log.D("startCurrentScreenHandler", "")
+	go func() {
+		for {
+			currentScreen := <-app.currentScreen
+			if currentScreen == weatherinformation {
+				app.weather.Show()
+				app.screenSaver.Hide()
+			} else {
+				app.screenSaver.Show()
+				app.weather.Hide()
+			}
+			app.container.Refresh()
+		}
+	}()
 }
 
 func (app *App) showError(err error) {
