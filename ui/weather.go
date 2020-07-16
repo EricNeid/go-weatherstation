@@ -82,6 +82,7 @@ func NewWeather() *Weather {
 		w.clock,
 	)
 	center := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		layout.NewSpacer(),
 		fyne.NewContainerWithLayout(layout.NewGridLayout(3),
 			w.today.layout,
 			w.tomorrow.layout,
