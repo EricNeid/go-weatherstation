@@ -42,10 +42,12 @@ func main() {
 	}
 
 	a.SetIcon(appIcon)
-	w.SetFixedSize(true)
-	w.SetFullScreen(args.fullscreen)
-	w.Resize(fyne.NewSize(800, 480))
-
+	if args.fullscreen {
+		w.SetFullScreen(true)
+	} else {
+		w.SetFixedSize(true)
+		w.Resize(fyne.NewSize(800, 480))
+	}
 	app := weatherstation.NewApp(a, w, city, args.keyFile, args.imageDir)
 
 	app.Start()
