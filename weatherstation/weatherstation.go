@@ -14,7 +14,7 @@ import (
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/dialog"
-	"fyne.io/fyne/widget"
+	"fyne.io/fyne/layout"
 )
 
 const screenSaverSwitchDelay = 30 * time.Second
@@ -38,7 +38,7 @@ type App struct {
 	app    fyne.App
 	window fyne.Window
 
-	container   *widget.Box
+	container   *fyne.Container
 	screenSaver *ui.ScreenSaver
 	weather     *ui.Weather
 
@@ -47,17 +47,23 @@ type App struct {
 
 // NewApp generates new instance of weatherstation application.
 func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, imageDir string) App {
+	uiWeather := ui.NewWeather()
+	uiScreenSaver := ui.NewScreenSaver()
+
 	app := App{
-		app:         fyneApp,
-		window:      window,
-		container:   widget.NewHBox(),
-		screenSaver: ui.NewScreenSaver(),
-		weather:     ui.NewWeather(),
+		app:    fyneApp,
+		window: window,
+		container: fyne.NewContainerWithLayout(
+			layout.NewMaxLayout(),
+			uiWeather.UI,
+		),
+		screenSaver: uiScreenSaver,
+		weather:     uiWeather,
 	}
 
 	app.loadKey(keyFile)
 	app.startClockUpdates()
-	app.startCurrentScreenHandler()
+	//app.startCurrentScreenHandler()
 	app.startScreenSaverUpdates(imageDir)
 	app.startWeatherInformationUpdates(city)
 	app.handleScreenSaverTouches()
@@ -70,7 +76,10 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 func (app *App) Start() {
 	log.D("start", "")
 	app.window.SetContent(app.container)
-	app.showScreenSaver()
+
+	//app.showScreenSaver()
+	app.showWeatherInfo()
+
 	app.window.ShowAndRun()
 }
 
@@ -122,7 +131,7 @@ func (app *App) startScreenSaverUpdates(imageDir string) {
 }
 
 // startCurrentScreenHandler check which screen should be displayed on a regular basis.
-// During fixedShowWeather the weather screen should be display by default.
+// During fixedShowWeather the weather screen should be display by default.0
 func (app *App) startCurrentScreenHandler() {
 	log.D("startCurrentScreenHandler", "")
 	go func() {
@@ -176,20 +185,26 @@ func (app *App) startWeatherInformationUpdates(city string) {
 
 func (app *App) showScreenSaver() {
 	log.D("showScreenSaver", "")
-	if len(app.container.Children) > 0 && app.container.Children[0] == app.screenSaver {
+	// check if screensaver is already active
+	/*if len(app.container.Objects) > 0 && app.container.Objects[0] == app.screenSaver {
 		return
 	}
-	app.container.Children = []fyne.CanvasObject{app.screenSaver}
+
+	//app.container.Children = []fyne.CanvasObject{app.screenSaver}
 	app.container.Refresh()
+	*/
 }
 
 func (app *App) showWeatherInfo() {
 	log.D("showWeatherInfo", "")
-	if len(app.container.Children) > 0 && app.container.Children[0] == app.weather {
+	app.weather.UI.Show()
+
+	/*if len(app.container.Children) > 0 && app.container.Children[0] == app.weather {
 		return
 	}
 	app.container.Children = []fyne.CanvasObject{app.weather}
 	app.container.Refresh()
+	*/
 }
 
 func (app *App) showError(err error) {

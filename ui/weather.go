@@ -17,7 +17,7 @@ var log = util.Log{Context: "weather"}
 
 // Weather represents information view for weather information
 type Weather struct {
-	widget.Box
+	UI *fyne.Container
 
 	background         *canvas.Image
 	city               *widget.Label
@@ -43,28 +43,26 @@ type forecast struct {
 
 // NewWeather constructs a new instance of a NewWeather widget.
 func NewWeather() *Weather {
-	w := &Weather{
-		widget.Box{},
-		&canvas.Image{FillMode: canvas.ImageFillOriginal},
-		widget.NewLabel("City"),
-		widget.NewLabel("Current Temperature"),
-		widget.NewLabel("Clock"),
-		widget.NewLabel("Last update"),
-		newForecast(),
-		newForecast(),
-		newForecast(),
-		make(chan bool),
+	w := Weather{
+		CloseTouches: make(chan bool),
 	}
-	w.ExtendBaseWidget(w)
+	w.city = widget.NewLabel("City")
 	w.city.Alignment = fyne.TextAlignCenter
 	w.city.TextStyle.Bold = true
+
+	w.currentTemperature = widget.NewLabel("Current Temperature")
 	w.currentTemperature.Alignment = fyne.TextAlignCenter
+
+	w.clock = widget.NewLabel("Clock")
 	w.clock.TextStyle.Bold = true
+
+	w.lastUpdate = widget.NewLabel("Last update")
 	w.lastUpdate.Alignment = fyne.TextAlignCenter
-	w.today.header.SetText(res.GetLabel("today"))
-	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
-	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
-	w.SetBackground("res/weather/background_tornado.jpg")
+
+	w.background = &canvas.Image{FillMode: canvas.ImageFillStretch}
+	w.today = newForecast()
+	w.tomorrow = newForecast()
+	w.afterTomorrow = newForecast()
 
 	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
@@ -75,7 +73,6 @@ func NewWeather() *Weather {
 		widget.NewVBox(),
 		layout.NewSpacer(),
 	)
-
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		widget.NewButton(res.GetLabel("close"), func() {
 			w.CloseTouches <- true
@@ -83,7 +80,6 @@ func NewWeather() *Weather {
 		layout.NewSpacer(),
 		w.clock,
 	)
-
 	center := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 		fyne.NewContainerWithLayout(layout.NewGridLayout(3),
 			w.today.layout,
@@ -92,16 +88,21 @@ func NewWeather() *Weather {
 		),
 		w.lastUpdate,
 	)
-
-	w.Children = []fyne.CanvasObject{
-		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-			fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-				w.background,
-			),
-			fyne.NewContainerWithLayout(layout.NewBorderLayout(header, footer, nil, nil), header, footer, center),
+	w.UI = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+		w.background,
+		fyne.NewContainerWithLayout(layout.NewBorderLayout(header, footer, nil, nil),
+			header,
+			footer,
+			center,
 		),
-	}
-	return w
+	)
+
+	w.today.header.SetText(res.GetLabel("today"))
+	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
+	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
+	w.SetBackground("res/weather/background_tornado.jpg")
+
+	return &w
 }
 
 func newForecast() forecast {

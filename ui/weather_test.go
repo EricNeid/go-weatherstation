@@ -4,6 +4,7 @@ import (
 	"testing"
 	"time"
 
+	"fyne.io/fyne/test"
 	"github.com/EricNeid/go-openweather"
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 	"github.com/EricNeid/go-weatherstation/res"
@@ -11,19 +12,22 @@ import (
 
 func TestNewWeather(t *testing.T) {
 	// arrange
-	testWindow := newTestWindow()
+	window := test.NewApp().NewWindow("TestNewWeather")
 	// action
 	unit := NewWeather()
-	testWindow.SetContent(unit)
+	window.SetContent(unit.UI)
 	// verify
-	verify.Equals(t, 1, len(unit.Children))
+	verify.NotNil(t, unit.city, "city widget not init")
+	verify.NotNil(t, unit.clock, "clock widget not init")
+	verify.NotNil(t, unit.lastUpdate, "last update widget not init")
 }
 
 func TestWeatherSetTime(t *testing.T) {
 	// arrange
+	window := test.NewApp().NewWindow("TestWeatherSetTime")
 	time := time.Now()
 	unit := NewWeather()
-	newTestWindow().SetContent(unit)
+	window.SetContent(unit.UI)
 	// action
 	unit.SetTime(time)
 	// verify
@@ -32,9 +36,10 @@ func TestWeatherSetTime(t *testing.T) {
 
 func TestSetCurrentTemperatureData(t *testing.T) {
 	// arrange
+	window := test.NewApp().NewWindow("TestSetCurrentTemperatureData")
 	res.CurrentLocale = res.EN
 	unit := NewWeather()
-	newTestWindow().SetContent(unit)
+	window.SetContent(unit.UI)
 	testData := openweather.CurrentWeather{
 		Name: "TestCity",
 		Main: struct {
