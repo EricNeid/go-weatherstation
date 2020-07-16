@@ -4,3 +4,5 @@ cmd/weatherstation/fyne-cross
 deploy.bat
 .vscode/launch.json
 **/api.key
+**/__debug_bin
+private

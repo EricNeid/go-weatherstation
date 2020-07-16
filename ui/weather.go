@@ -208,3 +208,17 @@ func (forecast *forecast) updateInformation(
 		forecast.icon.Refresh()
 	}
 }
+
+// Hide makes the ui invisible
+func (weather *Weather) Hide() {
+	if !weather.UI.Hidden {
+		weather.UI.Hide()
+	}
+}
+
+// Show makes the ui visible
+func (weather *Weather) Show() {
+	if weather.UI.Hidden {
+		weather.UI.Show()
+	}
+}

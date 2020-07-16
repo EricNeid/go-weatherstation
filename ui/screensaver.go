@@ -14,51 +14,38 @@ import (
 // ScreenSaver represents a clickable background image.
 // It provides a channel to read user clicks.
 type ScreenSaver struct {
-	widget.Box
-	image   *canvas.Image
-	clock   *widget.Label
-	Touches chan *fyne.PointEvent
-}
-
-// Tapped is called automatically when this widget is clicked.
-func (screenSaver *ScreenSaver) Tapped(e *fyne.PointEvent) {
-	screenSaver.Touches <- e
-}
-
-// TappedSecondary is called automatically when this widget is right clicked.
-func (screenSaver *ScreenSaver) TappedSecondary(e *fyne.PointEvent) {
-	screenSaver.Touches <- e
+	UI    *fyne.Container
+	image *canvas.Image
+	clock *widget.Label
+	Taps  chan bool
 }
 
 // NewScreenSaver constructs a new instance of a ScreenSaver widget.
 func NewScreenSaver() *ScreenSaver {
-	s := &ScreenSaver{
-		widget.Box{},
-		&canvas.Image{FillMode: canvas.ImageFillOriginal},
-		widget.NewLabel("clock"),
-		make(chan *fyne.PointEvent),
+	s := ScreenSaver{
+		Taps: make(chan bool),
 	}
-	s.ExtendBaseWidget(s)
+	s.clock = widget.NewLabel("clock")
 	s.clock.TextStyle.Bold = true
+
+	s.image = &canvas.Image{FillMode: canvas.ImageFillStretch}
 
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
 		s.clock,
 	)
-
-	s.Children = []fyne.CanvasObject{
-		fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-			fyne.NewContainerWithLayout(layout.NewMaxLayout(),
-				s.image,
-			),
-			fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
-				layout.NewSpacer(),
-				footer,
-			),
+	s.UI = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+		s.image,
+		NewTransparentButton(func() {
+			s.Taps <- true
+		}),
+		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+			layout.NewSpacer(),
+			footer,
 		),
-	}
+	)
 
-	return s
+	return &s
 }
 
 // SetBackground changes the displayed background image of this screen saver.
@@ -75,4 +62,18 @@ func (screenSaver *ScreenSaver) SetBackground(filepath string) error {
 func (screenSaver *ScreenSaver) SetTime(t time.Time) {
 	str := t.Format("Mon 15:04")
 	screenSaver.clock.SetText(str)
+}
+
+// Hide makes the ui invisible
+func (screenSaver *ScreenSaver) Hide() {
+	if !screenSaver.UI.Hidden {
+		screenSaver.UI.Hide()
+	}
+}
+
+// Show makes the ui visible
+func (screenSaver *ScreenSaver) Show() {
+	if screenSaver.UI.Hidden {
+		screenSaver.UI.Show()
+	}
 }

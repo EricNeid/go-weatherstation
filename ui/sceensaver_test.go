@@ -4,44 +4,46 @@ import (
 	"testing"
 	"time"
 
+	"fyne.io/fyne/test"
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 
 func TestNewScreenSaver(t *testing.T) {
 	// arrange
-	testWindow := newTestWindow()
-	// action
+	window := test.NewApp().NewWindow("TestNewScreenSaver")
 	unit := NewScreenSaver()
-	testWindow.SetContent(unit)
+	// action
+	window.SetContent(unit.UI)
 	// verify
-	verify.Equals(t, 1, len(unit.Children))
+	verify.NotNil(t, unit.clock, "clock is nil")
+	verify.NotNil(t, unit.image, "image is nil")
 }
 
 func TestSetBackground(t *testing.T) {
 	// arrange
+	window := test.NewApp().NewWindow("TestSetBackground")
 	unit := NewScreenSaver()
-	newTestWindow().SetContent(unit)
+	window.SetContent(unit.UI)
 
 	// action
 	err := unit.SetBackground("../testdata/img-1.png")
-	// verify that only on children is present
+	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, 1, len(unit.Children))
 	verify.Equals(t, "../testdata/img-1.png", unit.image.File)
 
 	// action
 	err = unit.SetBackground("../testdata/dir/img-2.png")
-	// verify that still only one children is present
+	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, 1, len(unit.Children))
 	verify.Equals(t, "../testdata/dir/img-2.png", unit.image.File)
 }
 
 func TestScreenSaverSetTime(t *testing.T) {
 	// arrange
+	window := test.NewApp().NewWindow("TestScreenSaverSetTime")
 	time := time.Now()
 	unit := NewScreenSaver()
-	newTestWindow().SetContent(unit)
+	window.SetContent(unit.UI)
 	// action
 	unit.SetTime(time)
 	// verify
