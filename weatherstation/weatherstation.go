@@ -118,6 +118,7 @@ func (app *App) handleCloseButtonTouches() {
 func (app *App) startScreenSaverUpdates(imageDir string) {
 	log.D("startScreenSaverUpdates", "")
 	backgroundImages := util.NewFileRingList(imageDir)
+	backgroundImages.Shuffle()
 	go func() {
 		for {
 			file, _ := backgroundImages.Next()
