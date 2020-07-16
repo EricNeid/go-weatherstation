@@ -5,4 +5,5 @@ deploy.bat
 .vscode/launch.json
 **/api.key
 **/__debug_bin
+**/fyne.syso
 private

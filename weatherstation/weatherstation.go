@@ -8,9 +8,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/EricNeid/go-weatherstation/services"
 	"github.com/EricNeid/go-weatherstation/ui"
 	"github.com/EricNeid/go-weatherstation/util"
+	"github.com/EricNeid/go-weatherstation/weather"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/dialog"
@@ -164,14 +164,14 @@ func (app *App) startWeatherInformationUpdates(city string) {
 		for {
 			log.D("startWeatherInformationUpdates", "Update weather information")
 
-			current, err := services.GetWeather(app.openWeatherKey, city)
+			current, err := weather.Current(app.openWeatherKey, city)
 			if err != nil {
 				app.showError(err)
 			} else {
 				app.weather.SetCurrentTemperatureData(*current)
 			}
 
-			forecast, err := services.GetWeatherForecast(app.openWeatherKey, city)
+			forecast, err := weather.Forecast(app.openWeatherKey, city)
 			if err != nil {
 				app.showError(err)
 			} else {

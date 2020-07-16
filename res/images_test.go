@@ -11,17 +11,17 @@ func TestGetBackgroundImage(t *testing.T) {
 	result, err := GetBackgroundImage(6)
 	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, "assets/weather/background_snow.jpg", result)
+	verify.Equals(t, resourceBackgroundsnowJpg.Name(), result.Name())
 
 	// action
 	result, err = GetBackgroundImage(601)
 	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, "assets/weather/background_snow.jpg", result)
+	verify.Equals(t, resourceBackgroundsnowJpg.Name(), result.Name())
 
 	// action
 	result, err = GetBackgroundImage(615)
 	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, "assets/weather/background_snow.jpg", result)
+	verify.Equals(t, resourceBackgroundsnowJpg.Name(), result.Name())
 }

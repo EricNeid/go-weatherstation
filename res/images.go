@@ -6,30 +6,31 @@ import (
 
 	"fyne.io/fyne"
 	"github.com/EricNeid/go-weatherstation/util"
+	"github.com/EricNeid/go-weatherstation/weather"
 )
 
 var log = util.Log{Context: "images"}
 
-var backgroundWeather = map[int]string{
-	2: "assets/weather/background_thunder.jpg",
-	3: "assets/weather/background_drizzle.jpg",
-	5: "assets/weather/background_rain.jpg",
-	6: "assets/weather/background_snow.jpg",
-	7: "assets/weather/background_mist.jpg",
-	8: "assets/weather/background_clear.jpg",
-	9: "assets/weather/background_tornado.jpg",
+var backgroundWeather = map[int]fyne.Resource{
+	2:                      resourceBackgroundthunderJpg,
+	3:                      resourceBackgrounddrizzleJpg,
+	5:                      resourceBackgroundrainJpg,
+	6:                      resourceBackgroundsnowJpg,
+	7:                      resourceBackgroundmistJpg,
+	weather.ConditionClear: resourceBackgroundclearJpg,
+	9:                      resourceBackgroundtornadoJpg,
 }
 
 // GetBackgroundImage returns file path to background image matching the
 // given condition code. See https://openweathermap.org/weather-conditions for conditions.
 // Only the first digit is used to display the primary weather condition (all types of snow are returned with same image).
-func GetBackgroundImage(weatherConditionID int) (string, error) {
+func GetBackgroundImage(weatherConditionID int) (fyne.Resource, error) {
 	log.D("GetBackgroundImage", fmt.Sprintf("Condition id is: %d", weatherConditionID))
 
 	cond := strconv.Itoa(weatherConditionID)
 	primaryCond, err := strconv.Atoi(string(cond[0]))
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	return backgroundWeather[primaryCond], nil
@@ -44,10 +45,6 @@ func GetConditionIcon(weatherConditionIcon string) (fyne.Resource, error) {
 }
 
 // GetAppIcon returns the application icon.
-func GetAppIcon() (fyne.Resource, error) {
-	res, err := fyne.LoadResourceFromPath("assets/ic-sunny.png")
-	if err != nil {
-		log.E("GetAppIcon", err)
-	}
-	return res, err
+func GetAppIcon() fyne.Resource {
+	return resourceAppiconPng
 }

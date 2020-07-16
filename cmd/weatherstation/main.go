@@ -31,17 +31,18 @@ func main() {
 	w := a.NewWindow("Weatherinformation")
 
 	// set app icon
-	appIcon, err := res.GetAppIcon()
-	if err != nil {
-		dialog.ShowError(errors.New("Could not load app icon"), w)
-	}
+	appIcon := res.GetAppIcon()
+	a.SetIcon(appIcon)
+
+	// check api key file exists
 	if _, err := os.Stat(args.keyFile); os.IsNotExist(err) {
 		dialog.ShowError(errors.New("Could not load api key"), w)
 	}
+
+	// check if image dir exists
 	if _, err := os.Stat(args.imageDir); os.IsNotExist(err) {
 		dialog.ShowError(errors.New("Could not find image directory"), w)
 	}
-	a.SetIcon(appIcon)
 
 	// set app size
 	if args.fullscreen {

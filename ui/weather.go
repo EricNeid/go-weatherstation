@@ -11,6 +11,7 @@ import (
 	"github.com/EricNeid/go-openweather"
 	"github.com/EricNeid/go-weatherstation/res"
 	"github.com/EricNeid/go-weatherstation/util"
+	"github.com/EricNeid/go-weatherstation/weather"
 )
 
 var log = util.Log{Context: "weather"}
@@ -100,7 +101,8 @@ func NewWeather() *Weather {
 	w.today.header.SetText(res.GetLabel("today"))
 	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
 	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
-	w.SetBackground("res/weather/background_tornado.jpg")
+	defaultBackground, _ := res.GetBackgroundImage(weather.ConditionClear)
+	w.SetBackground(defaultBackground)
 
 	return &w
 }
@@ -133,11 +135,8 @@ func newForecast() forecast {
 }
 
 // SetBackground changes the background image of the weather screen.
-func (weather *Weather) SetBackground(filepath string) error {
-	if !util.IsFilePresent(filepath) {
-		return fmt.Errorf("Given file %s does not exits", filepath)
-	}
-	weather.background.File = filepath
+func (weather *Weather) SetBackground(image fyne.Resource) error {
+	weather.background.Resource = image
 	weather.background.Refresh()
 	return nil
 }

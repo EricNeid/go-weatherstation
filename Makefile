@@ -1,4 +1,14 @@
-all: test build
+all: init resources test build distribute
+
+init:
+	go get fyne.io/fyne/cmd/fyne 
+
+resources:
+	fyne bundle -package res ./assets/ > res/bundle.go 
+
+distribute:
+	cd cmd/weatherstation \
+	&& fyne package -icon ../../assets/app_icon.png
 
 build:
 	cd cmd/weatherstation && go build
@@ -9,13 +19,6 @@ test:
 
 linux-dependencies:
 	sudo apt-get install libegl1-mesa-dev and xorg-dev
-
-
-run-windows:
-	cd cmd/weatherstation && weatherstation.exe
-
-run-linux:
-	cd cmd/weatherstation && weatherstation
 
 
 cross-build-windows:
