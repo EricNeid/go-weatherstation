@@ -28,7 +28,7 @@ func NewScreenSaver() *ScreenSaver {
 	s.clock = widget.NewLabel("clock")
 	s.clock.TextStyle.Bold = true
 
-	s.image = &canvas.Image{FillMode: canvas.ImageFillStretch}
+	s.image = &canvas.Image{FillMode: canvas.ImageFillContain}
 
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
