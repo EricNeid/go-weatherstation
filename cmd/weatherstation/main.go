@@ -30,6 +30,7 @@ func main() {
 	a := app.New()
 	w := a.NewWindow("Weatherinformation")
 
+	// set app icon
 	appIcon, err := res.GetAppIcon()
 	if err != nil {
 		dialog.ShowError(errors.New("Could not load app icon"), w)
@@ -40,14 +41,16 @@ func main() {
 	if _, err := os.Stat(args.imageDir); os.IsNotExist(err) {
 		dialog.ShowError(errors.New("Could not find image directory"), w)
 	}
-
 	a.SetIcon(appIcon)
+
+	// set app size
 	if args.fullscreen {
 		w.SetFullScreen(true)
 	} else {
 		w.SetFixedSize(true)
 		w.Resize(fyne.NewSize(800, 480))
 	}
+
 	app := weatherstation.NewApp(a, w, city, args.keyFile, args.imageDir)
 
 	app.Start()
