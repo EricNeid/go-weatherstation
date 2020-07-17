@@ -6,8 +6,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/EricNeid/go-weatherstation/res"
-	"github.com/EricNeid/go-weatherstation/weatherstation"
+	"github.com/EricNeid/go-weatherstation/internal/res"
+	"github.com/EricNeid/go-weatherstation/internal/weatherstation"
 
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"

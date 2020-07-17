@@ -6,4 +6,4 @@ deploy.bat
 **/api.key
 **/__debug_bin
 **/fyne.syso
-private
+test/private
