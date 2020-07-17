@@ -65,7 +65,7 @@ func parseArgs() args {
 
 	var args args
 	flag.BoolVar(&args.fullscreen, "fullscreen", false, "show app in fullscreen mode")
-	flag.StringVar(&args.imageDir, "images", "images", "directory, containing images for the screensave")
+	flag.StringVar(&args.imageDir, "screensaver", "screensaver", "directory, containing images for the screensave")
 	flag.StringVar(&args.keyFile, "key", "api.key", "file, containing api key for openweather")
 
 	flag.Parse()
