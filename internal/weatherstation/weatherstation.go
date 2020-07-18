@@ -64,8 +64,8 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 		window: window,
 		container: fyne.NewContainerWithLayout(
 			layout.NewMaxLayout(),
-			uiScreenSaver.UI,
-			uiWeather.UI,
+			uiScreenSaver.View,
+			uiWeather.View,
 		),
 		weather:       uiWeather,
 		screenSaver:   uiScreenSaver,

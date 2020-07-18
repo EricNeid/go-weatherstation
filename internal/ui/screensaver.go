@@ -14,7 +14,7 @@ import (
 // ScreenSaver represents a clickable background image.
 // It provides a channel to read user clicks.
 type ScreenSaver struct {
-	UI    *fyne.Container
+	View  *fyne.Container
 	image *canvas.Image
 	clock *widget.Label
 	Taps  chan bool
@@ -34,7 +34,7 @@ func NewScreenSaver() *ScreenSaver {
 		layout.NewSpacer(),
 		s.clock,
 	)
-	s.UI = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	s.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		s.image,
 		NewTransparentButton(func() {
 			s.Taps <- true
@@ -66,14 +66,14 @@ func (screenSaver *ScreenSaver) SetTime(t time.Time) {
 
 // Hide makes the ui invisible
 func (screenSaver *ScreenSaver) Hide() {
-	if !screenSaver.UI.Hidden {
-		screenSaver.UI.Hide()
+	if !screenSaver.View.Hidden {
+		screenSaver.View.Hide()
 	}
 }
 
 // Show makes the ui visible
 func (screenSaver *ScreenSaver) Show() {
-	if screenSaver.UI.Hidden {
-		screenSaver.UI.Show()
+	if screenSaver.View.Hidden {
+		screenSaver.View.Show()
 	}
 }

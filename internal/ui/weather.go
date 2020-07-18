@@ -18,7 +18,7 @@ var log = util.Log{Context: "weather"}
 
 // Weather represents information view for weather information
 type Weather struct {
-	UI *fyne.Container
+	View *fyne.Container
 
 	background         *canvas.Image
 	city               *widget.Label
@@ -89,7 +89,7 @@ func NewWeather() *Weather {
 		),
 		w.lastUpdate,
 	)
-	w.UI = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	w.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		w.background,
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			header,
@@ -212,14 +212,14 @@ func (forecast *forecast) updateInformation(
 
 // Hide makes the ui invisible
 func (weather *Weather) Hide() {
-	if !weather.UI.Hidden {
-		weather.UI.Hide()
+	if !weather.View.Hidden {
+		weather.View.Hide()
 	}
 }
 
 // Show makes the ui visible
 func (weather *Weather) Show() {
-	if weather.UI.Hidden {
-		weather.UI.Show()
+	if weather.View.Hidden {
+		weather.View.Show()
 	}
 }

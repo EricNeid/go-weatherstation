@@ -15,7 +15,7 @@ func TestNewScreenSaver(t *testing.T) {
 	window := test.NewApp().NewWindow("TestNewScreenSaver")
 	unit := NewScreenSaver()
 	// action
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 	// verify
 	verify.NotNil(t, unit.clock, "clock is nil")
 	verify.NotNil(t, unit.image, "image is nil")
@@ -25,7 +25,7 @@ func TestSetBackground(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestSetBackground")
 	unit := NewScreenSaver()
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 
 	// action
 	err := unit.SetBackground(testDir + "/testdata/img-1.png")
@@ -45,7 +45,7 @@ func TestScreenSaverSetTime(t *testing.T) {
 	window := test.NewApp().NewWindow("TestScreenSaverSetTime")
 	time := time.Now()
 	unit := NewScreenSaver()
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 	// action
 	unit.SetTime(time)
 	// verify

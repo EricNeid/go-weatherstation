@@ -15,7 +15,7 @@ func TestNewWeather(t *testing.T) {
 	window := test.NewApp().NewWindow("TestNewWeather")
 	// action
 	unit := NewWeather()
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 	// verify
 	verify.NotNil(t, unit.city, "city widget not init")
 	verify.NotNil(t, unit.clock, "clock widget not init")
@@ -27,7 +27,7 @@ func TestWeatherSetTime(t *testing.T) {
 	window := test.NewApp().NewWindow("TestWeatherSetTime")
 	time := time.Now()
 	unit := NewWeather()
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 	// action
 	unit.SetTime(time)
 	// verify
@@ -39,7 +39,7 @@ func TestSetCurrentTemperatureData(t *testing.T) {
 	window := test.NewApp().NewWindow("TestSetCurrentTemperatureData")
 	res.CurrentLocale = res.EN
 	unit := NewWeather()
-	window.SetContent(unit.UI)
+	window.SetContent(unit.View)
 	testData := openweather.CurrentWeather{
 		Name: "TestCity",
 		Main: struct {
