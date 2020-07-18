@@ -17,13 +17,14 @@ type ScreenSaver struct {
 	View  *fyne.Container
 	image *canvas.Image
 	clock *widget.Label
-	Taps  chan bool
+	Taps  <-chan bool
 }
 
 // NewScreenSaver constructs a new instance of a ScreenSaver widget.
 func NewScreenSaver() *ScreenSaver {
+	taps := make(chan bool)
 	s := ScreenSaver{
-		Taps: make(chan bool),
+		Taps: taps,
 	}
 	s.clock = widget.NewLabel("clock")
 	s.clock.TextStyle.Bold = true
@@ -37,7 +38,7 @@ func NewScreenSaver() *ScreenSaver {
 	s.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		s.image,
 		NewTransparentButton(func() {
-			s.Taps <- true
+			taps <- true
 		}),
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			layout.NewSpacer(),
