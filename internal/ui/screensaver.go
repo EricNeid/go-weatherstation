@@ -13,20 +13,15 @@ import (
 
 // ScreenSaver represents a clickable background image.
 // View property represents actual UI which can be added to a window.
-// Read from Taps to detect clicks on the whole screen.
 type ScreenSaver struct {
 	View  *fyne.Container
 	image *canvas.Image
 	clock *widget.Label
-	Taps  <-chan bool
 }
 
-// NewScreenSaver constructs a new instance of a ScreenSaver widget.
-func NewScreenSaver() *ScreenSaver {
-	taps := make(chan bool)
-	s := ScreenSaver{
-		Taps: taps,
-	}
+// NewScreenSaver creates a new screensaver widget with the set tap handler.
+func NewScreenSaver(tapped func()) *ScreenSaver {
+	s := ScreenSaver{}
 	s.clock = widget.NewLabel("clock")
 	s.clock.TextStyle.Bold = true
 
@@ -38,9 +33,7 @@ func NewScreenSaver() *ScreenSaver {
 	)
 	s.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		s.image,
-		NewTransparentButton(func() {
-			taps <- true
-		}),
+		NewTransparentButton(tapped),
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			layout.NewSpacer(),
 			footer,

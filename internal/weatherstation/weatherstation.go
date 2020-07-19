@@ -22,6 +22,7 @@ const clockUpdateDelay = 1 * time.Minute
 const weatherUpdateDelay = 1 * time.Hour
 const checkScreenDelay = 1 * time.Minute
 
+// enum for currently displayed screen.
 type screen int
 
 const (
@@ -56,8 +57,15 @@ type App struct {
 
 // NewApp generates new instance of weatherstation application.
 func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, imageDir string) App {
-	uiWeather := ui.NewWeather()
-	uiScreenSaver := ui.NewScreenSaver()
+	// channel currentScreen is used to changed the currently displayed view
+	currentScreen := make(chan screen)
+
+	uiWeather := ui.NewWeather(func() {
+		fyneApp.Quit()
+	})
+	uiScreenSaver := ui.NewScreenSaver(func() {
+		currentScreen <- weatherinformation
+	})
 
 	app := App{
 		app:    fyneApp,
@@ -69,7 +77,7 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 		),
 		weather:       uiWeather,
 		screenSaver:   uiScreenSaver,
-		currentScreen: make(chan screen),
+		currentScreen: currentScreen,
 	}
 
 	app.loadKey(keyFile)
@@ -80,9 +88,6 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 	app.startWeatherInformationUpdates(city)
 	app.startCurrentScreenHandler()
 
-	app.handleScreenSaverTouches()
-	app.handleCloseButtonTouches()
-
 	return app
 }
 
@@ -90,9 +95,7 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 func (app *App) Start() {
 	log.D("start", "")
 	app.window.SetContent(app.container)
-
-	app.currentScreen <- screensaver
-
+	app.currentScreen <- screensaver // initial view is the screensaver
 	app.window.ShowAndRun()
 }
 
@@ -108,24 +111,6 @@ func (app *App) loadKey(keyFile string) {
 
 		app.openWeatherKey = string(apiKey)
 	}
-}
-
-func (app *App) handleScreenSaverTouches() {
-	go func() {
-		for {
-			<-app.screenSaver.Taps
-			log.D("handleScreenSaverTouches", "Switching to weather")
-			app.currentScreen <- weatherinformation
-		}
-	}()
-}
-
-func (app *App) handleCloseButtonTouches() {
-	go func() {
-		<-app.weather.TapsClose
-		log.D("handleCloseButtonTouches", "Closing app")
-		app.app.Quit()
-	}()
 }
 
 func (app *App) startScreenSaverUpdates(imageDir string) {

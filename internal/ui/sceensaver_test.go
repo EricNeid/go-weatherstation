@@ -13,7 +13,7 @@ const testDir = "../../test"
 func TestNewScreenSaver(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestNewScreenSaver")
-	unit := NewScreenSaver()
+	unit := NewScreenSaver(nil)
 	// action
 	window.SetContent(unit.View)
 	// verify
@@ -24,7 +24,7 @@ func TestNewScreenSaver(t *testing.T) {
 func TestSetBackground(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestSetBackground")
-	unit := NewScreenSaver()
+	unit := NewScreenSaver(nil)
 	window.SetContent(unit.View)
 
 	// action
@@ -44,7 +44,7 @@ func TestScreenSaverSetTime(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestScreenSaverSetTime")
 	time := time.Now()
-	unit := NewScreenSaver()
+	unit := NewScreenSaver(nil)
 	window.SetContent(unit.View)
 	// action
 	unit.SetTime(time)
