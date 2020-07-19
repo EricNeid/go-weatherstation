@@ -16,7 +16,9 @@ import (
 
 var log = util.Log{Context: "weather"}
 
-// Weather represents information view for weather information
+// Weather represents information view for weather information.
+// View property represents actual UI which can be added to a window.
+// Read from TapsClose to detect clicks on the close Button.
 type Weather struct {
 	View *fyne.Container
 
@@ -30,7 +32,7 @@ type Weather struct {
 	tomorrow      forecast
 	afterTomorrow forecast
 
-	CloseTouches chan bool
+	TapsClose chan bool
 }
 
 type forecast struct {
@@ -45,7 +47,7 @@ type forecast struct {
 // NewWeather constructs a new instance of a NewWeather widget.
 func NewWeather() *Weather {
 	w := Weather{
-		CloseTouches: make(chan bool),
+		TapsClose: make(chan bool),
 	}
 	w.city = widget.NewLabel("City")
 	w.city.Alignment = fyne.TextAlignCenter
@@ -76,7 +78,7 @@ func NewWeather() *Weather {
 	)
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
 		widget.NewButton(res.GetLabel("close"), func() {
-			w.CloseTouches <- true
+			w.TapsClose <- true
 		}),
 		layout.NewSpacer(),
 		w.clock,

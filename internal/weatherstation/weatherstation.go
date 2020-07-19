@@ -122,7 +122,7 @@ func (app *App) handleScreenSaverTouches() {
 
 func (app *App) handleCloseButtonTouches() {
 	go func() {
-		<-app.weather.CloseTouches
+		<-app.weather.TapsClose
 		log.D("handleCloseButtonTouches", "Closing app")
 		app.app.Quit()
 	}()

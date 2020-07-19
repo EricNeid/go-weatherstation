@@ -12,7 +12,8 @@ import (
 )
 
 // ScreenSaver represents a clickable background image.
-// It provides a channel to read user clicks.
+// View property represents actual UI which can be added to a window.
+// Read from Taps to detect clicks on the whole screen.
 type ScreenSaver struct {
 	View  *fyne.Container
 	image *canvas.Image
