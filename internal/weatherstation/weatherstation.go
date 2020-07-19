@@ -17,10 +17,20 @@ import (
 	"fyne.io/fyne/layout"
 )
 
+// switch displayed screensaver image
 const screenSaverSwitchDelay = 30 * time.Second
+
+// update displayed clock
 const clockUpdateDelay = 1 * time.Minute
+
+// retrieve new weather data
 const weatherUpdateDelay = 1 * time.Hour
-const checkScreenDelay = 1 * time.Minute
+
+// check wether to display screensaver or weather information
+const checkScreenDelay = 30 * time.Minute
+
+// switch back to screensaver after user requested weather information
+const switchBackDelay = 30 * time.Second
 
 // enum for currently displayed screen.
 type screen int
@@ -61,10 +71,17 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 	currentScreen := make(chan screen)
 
 	uiWeather := ui.NewWeather(func() {
+		log.D("closeTapped", "closing app")
 		fyneApp.Quit()
 	})
 	uiScreenSaver := ui.NewScreenSaver(func() {
+		log.D("screensaver tapped", "switching to weather information")
 		currentScreen <- weatherinformation
+		go func() {
+			time.Sleep(switchBackDelay)
+			log.D("screensaver tapped", "switching back to screensaver")
+			currentScreen <- screensaver
+		}()
 	})
 
 	app := App{
