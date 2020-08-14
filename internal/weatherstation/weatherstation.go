@@ -9,8 +9,8 @@ import (
 	"time"
 
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/ui"
 	"github.com/EricNeid/go-weatherstation/internal/util"
+	"github.com/EricNeid/go-weatherstation/internal/view"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 
 	"fyne.io/fyne"
@@ -58,8 +58,8 @@ type App struct {
 	window fyne.Window
 
 	container   *fyne.Container
-	screenSaver *ui.ScreenSaver
-	weather     *ui.Weather
+	screenSaver *view.ScreenSaver
+	weather     *view.Weather
 
 	openWeatherKey string
 
@@ -71,11 +71,11 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 	// channel currentScreen is used to changed the currently displayed view
 	currentScreen := make(chan screen)
 
-	viewWeather, weather := ui.NewWeather(func() {
+	viewWeather, weather := view.NewWeather(func() {
 		log.D("closeTapped", "closing app")
 		fyneApp.Quit()
 	})
-	viewScreensaver, screensaver := ui.NewScreenSaver(func() {
+	viewScreensaver, screensaver := view.NewScreenSaver(func() {
 		log.D("screensaver tapped", "switching to weather information")
 		currentScreen <- weatherinformation
 		go func() {

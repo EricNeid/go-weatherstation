@@ -6,9 +6,7 @@ import (
 	"os"
 )
 
-var (
-	internalLog *log.Logger
-)
+var internalLog *log.Logger = log.New(os.Stderr, "", log.LstdFlags)
 
 // Log provides logging methods. Provide the given context (file or package name for example)
 // to be displayed in the log messages.
