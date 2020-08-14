@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/EricNeid/go-weatherstation/internal/res"
+	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/weatherstation"
 
 	"fyne.io/fyne"
@@ -24,7 +25,7 @@ const city = "Berlin"
 
 func main() {
 	res.CurrentLocale = res.DE
-
+	logger.Init()
 	args := parseArgs()
 
 	a := app.New()
