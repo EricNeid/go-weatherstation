@@ -37,8 +37,8 @@ const switchBackDelay = 30 * time.Second
 type screen int
 
 const (
-	screensaver        screen = iota
-	weatherinformation screen = iota
+	screensaver screen = iota
+	weatherinformation
 )
 
 // fixedShowWeather set the time when the weather screen is always displayed
