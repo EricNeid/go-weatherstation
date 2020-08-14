@@ -14,32 +14,32 @@ func TestNewWeather(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestNewWeather")
 	// action
-	unit := NewWeather(nil)
-	window.SetContent(unit.View)
+	view, viewModel := NewWeather(nil)
+	window.SetContent(view)
 	// verify
-	verify.NotNil(t, unit.city, "city widget not init")
-	verify.NotNil(t, unit.clock, "clock widget not init")
-	verify.NotNil(t, unit.lastUpdate, "last update widget not init")
+	verify.NotNil(t, viewModel.city, "city widget not init")
+	verify.NotNil(t, viewModel.clock, "clock widget not init")
+	verify.NotNil(t, viewModel.lastUpdate, "last update widget not init")
 }
 
 func TestWeatherSetTime(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestWeatherSetTime")
 	time := time.Now()
-	unit := NewWeather(nil)
-	window.SetContent(unit.View)
+	view, viewModel := NewWeather(nil)
+	window.SetContent(view)
 	// action
-	unit.SetTime(time)
+	viewModel.SetTime(time)
 	// verify
-	verify.Equals(t, time.Format("Mon 15:04"), unit.clock.Text)
+	verify.Equals(t, time.Format("Mon 15:04"), viewModel.clock.Text)
 }
 
 func TestSetCurrentTemperatureData(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestSetCurrentTemperatureData")
 	res.CurrentLocale = res.EN
-	unit := NewWeather(nil)
-	window.SetContent(unit.View)
+	view, viewModel := NewWeather(nil)
+	window.SetContent(view)
 	testData := openweather.CurrentWeather{
 		Name: "TestCity",
 		Main: struct {
@@ -53,8 +53,8 @@ func TestSetCurrentTemperatureData(t *testing.T) {
 		},
 	}
 	// action
-	unit.SetCurrentTemperatureData(testData)
+	viewModel.SetCurrentTemperatureData(testData)
 	// verify
-	verify.Equals(t, "TestCity", unit.city.Text)
-	verify.Equals(t, "current temperature: 42.03°", unit.currentTemperature.Text)
+	verify.Equals(t, "TestCity", viewModel.city.Text)
+	verify.Equals(t, "current temperature: 42.03°", viewModel.currentTemperature.Text)
 }

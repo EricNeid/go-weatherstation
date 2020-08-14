@@ -71,11 +71,11 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 	// channel currentScreen is used to changed the currently displayed view
 	currentScreen := make(chan screen)
 
-	uiWeather := ui.NewWeather(func() {
+	viewWeather, weather := ui.NewWeather(func() {
 		log.D("closeTapped", "closing app")
 		fyneApp.Quit()
 	})
-	uiScreenSaver := ui.NewScreenSaver(func() {
+	viewScreensaver, screensaver := ui.NewScreenSaver(func() {
 		log.D("screensaver tapped", "switching to weather information")
 		currentScreen <- weatherinformation
 		go func() {
@@ -90,11 +90,11 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, i
 		window: window,
 		container: fyne.NewContainerWithLayout(
 			layout.NewMaxLayout(),
-			uiScreenSaver.View,
-			uiWeather.View,
+			viewScreensaver,
+			viewWeather,
 		),
-		weather:       uiWeather,
-		screenSaver:   uiScreenSaver,
+		weather:       weather,
+		screenSaver:   screensaver,
 		currentScreen: currentScreen,
 	}
 

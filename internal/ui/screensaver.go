@@ -14,13 +14,13 @@ import (
 // ScreenSaver represents a clickable background image.
 // View property represents actual UI which can be added to a window.
 type ScreenSaver struct {
-	View  *fyne.Container
+	view  *fyne.Container
 	image *canvas.Image
 	clock *widget.Label
 }
 
 // NewScreenSaver creates a new screensaver widget with the set tap handler.
-func NewScreenSaver(tapped func()) *ScreenSaver {
+func NewScreenSaver(tapped func()) (view fyne.CanvasObject, viewModel *ScreenSaver) {
 	s := ScreenSaver{}
 	s.clock = widget.NewLabel("clock")
 	s.clock.TextStyle.Bold = true
@@ -31,7 +31,7 @@ func NewScreenSaver(tapped func()) *ScreenSaver {
 		layout.NewSpacer(),
 		s.clock,
 	)
-	s.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	s.view = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		s.image,
 		NewTransparentButton(tapped),
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
@@ -40,7 +40,7 @@ func NewScreenSaver(tapped func()) *ScreenSaver {
 		),
 	)
 
-	return &s
+	return s.view, &s
 }
 
 // SetBackground changes the displayed background image of this screen saver.
@@ -61,14 +61,14 @@ func (screenSaver *ScreenSaver) SetTime(t time.Time) {
 
 // Hide makes the ui invisible
 func (screenSaver *ScreenSaver) Hide() {
-	if !screenSaver.View.Hidden {
-		screenSaver.View.Hide()
+	if !screenSaver.view.Hidden {
+		screenSaver.view.Hide()
 	}
 }
 
 // Show makes the ui visible
 func (screenSaver *ScreenSaver) Show() {
-	if screenSaver.View.Hidden {
-		screenSaver.View.Show()
+	if screenSaver.view.Hidden {
+		screenSaver.view.Show()
 	}
 }

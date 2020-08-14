@@ -19,7 +19,7 @@ var log = logger.Log{Context: "weather"}
 // Weather represents information view for weather information.
 // View property represents actual UI which can be added to a window.
 type Weather struct {
-	View *fyne.Container
+	view *fyne.Container
 
 	background         *canvas.Image
 	city               *widget.Label
@@ -42,7 +42,7 @@ type forecast struct {
 }
 
 // NewWeather creates a new weather widget with the set tap handler for the close button.
-func NewWeather(closeTapped func()) *Weather {
+func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather) {
 	w := Weather{}
 	w.city = widget.NewLabel("City")
 	w.city.Alignment = fyne.TextAlignCenter
@@ -84,7 +84,7 @@ func NewWeather(closeTapped func()) *Weather {
 		),
 		w.lastUpdate,
 	)
-	w.View = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	w.view = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
 		w.background,
 		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
 			header,
@@ -101,7 +101,7 @@ func NewWeather(closeTapped func()) *Weather {
 	defaultBackground, _ := res.GetBackgroundImage(weather.ConditionClear)
 	w.SetBackground(defaultBackground)
 
-	return &w
+	return w.view, &w
 }
 
 func newForecast() forecast {
@@ -207,14 +207,14 @@ func (forecast *forecast) updateInformation(
 
 // Hide makes the ui invisible
 func (weather *Weather) Hide() {
-	if !weather.View.Hidden {
-		weather.View.Hide()
+	if !weather.view.Hidden {
+		weather.view.Hide()
 	}
 }
 
 // Show makes the ui visible
 func (weather *Weather) Show() {
-	if weather.View.Hidden {
-		weather.View.Show()
+	if weather.view.Hidden {
+		weather.view.Show()
 	}
 }
