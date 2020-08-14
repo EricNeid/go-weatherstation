@@ -5,11 +5,11 @@ import (
 	"strconv"
 
 	"fyne.io/fyne"
-	"github.com/EricNeid/go-weatherstation/internal/util"
+	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 )
 
-var log = util.Log{Context: "images"}
+var log = logger.Log{Context: "images"}
 
 var backgroundWeather = map[int]fyne.Resource{
 	2:                      resourceBackgroundthunderJpg,

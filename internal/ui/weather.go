@@ -9,12 +9,12 @@ import (
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-openweather"
+	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/res"
-	"github.com/EricNeid/go-weatherstation/internal/util"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 )
 
-var log = util.Log{Context: "weather"}
+var log = logger.Log{Context: "weather"}
 
 // Weather represents information view for weather information.
 // View property represents actual UI which can be added to a window.

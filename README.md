@@ -34,3 +34,8 @@ cd cmd/weatherstation
 weatherstation.exe
 weatherstation.exe -h
 ```
+
+## Log files
+
+Should something goes wrong, please have a lock at
+the log file: go-weatherstation.log

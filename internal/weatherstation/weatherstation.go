@@ -8,6 +8,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/ui"
 	"github.com/EricNeid/go-weatherstation/internal/util"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
@@ -48,7 +49,7 @@ var fixedShowWeather = util.TimeInterval{
 	EndHour:   9,
 }
 
-var log = util.Log{Context: "weatherstation"}
+var log = logger.Log{Context: "weatherstation"}
 
 // App represents the main weatherstation application.
 // It glues ui and services together.
