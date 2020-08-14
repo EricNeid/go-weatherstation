@@ -38,8 +38,4 @@ weatherstation.exe -h
 ## Log files
 
 Should something goes wrong, please have a lock at
-the log files. Depending on your os, they are either
-located in:
-
-* Windows: user_home/AppData/go-weatherstation.log
-* Linux: /var/log/go-weatherstation.log
+the log file: go-weatherstation.log
