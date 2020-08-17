@@ -1,58 +1,83 @@
 package assets
 
-// DE stand for german language
-const DE Locale = "de"
+// ResourceKey represent an enum for the used language.
+type ResourceKey int
 
-// EN stands for english language
-const EN Locale = "en"
+// Locale represents an enum for the currently used locale.
+type Locale int
 
-// Locale represent an enum for the used language
-type Locale string
+const (
+	// EN is english
+	EN Locale = iota
+	// DE is german
+	DE
+)
 
 // CurrentLocale configures the locale used to return localized strings
 var CurrentLocale Locale = EN
 
+const (
+	// Today is today
+	Today ResourceKey = iota
+	// Tomorrow is tomorrow
+	Tomorrow
+	// AfterTomorrow is the day after tomorrow
+	AfterTomorrow
+	// Close is close
+	Close
+	// CurrentTemperature is current temperature
+	CurrentTemperature
+	// LastUpdate is last update
+	LastUpdate
+	// DayTimeTemperature is day time temperature
+	DayTimeTemperature
+	// MinTemperature is the lowest temperature of the day
+	MinTemperature
+	// MaxTemperature is the hightest temperature of the day
+	MaxTemperature
+)
+
 // Labels contains all localized label strings
-var Labels = map[string]map[Locale]string{
-	"today": {
+var Labels = map[ResourceKey]map[Locale]string{
+	Today: {
 		DE: "Heute",
 		EN: "Today",
 	},
-	"tomorrow": {
+	Tomorrow: {
 		DE: "Morgen",
 		EN: "Tomorrow",
 	},
-	"aftertomorrow": {
+	AfterTomorrow: {
 		DE: "Übermorgen",
 		EN: "Day after tomorrow",
 	},
-	"close": {
+	Close: {
 		DE: "Schließen",
 		EN: "Close",
 	},
-	"currenttemperature": {
+	CurrentTemperature: {
 		DE: "aktuelle Temperatur: %.2f°",
 		EN: "current temperature: %.2f°",
 	},
-	"lastupdate": {
+	LastUpdate: {
 		DE: "Stand: %s",
 		EN: "last update: %s",
 	},
-	"daytimetemperature": {
+	DayTimeTemperature: {
 		DE: "Tagestemperatur: %.2f°",
 		EN: "daytime temperature: %.2f°",
 	},
-	"lowesttemperature": {
+	MinTemperature: {
 		DE: "Tiefsttemperatur: %.2f°",
 		EN: "lowest temperature: %.2f°",
 	},
-	"maximumtemperature": {
+	MaxTemperature: {
 		DE: "Höchsttemperatur: %.2f°",
 		EN: "maximum  temperature: %.2f°",
 	},
 }
 
 // GetLabel returns localiced label for given key. See Labels for valid keys
-func GetLabel(key string) string {
+func GetLabel(key ResourceKey) string {
 	return Labels[key][CurrentLocale]
 }

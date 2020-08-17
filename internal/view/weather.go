@@ -72,7 +72,7 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 		layout.NewSpacer(),
 	)
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
-		widget.NewButton(assets.GetLabel("close"), closeTapped),
+		widget.NewButton(assets.GetLabel(assets.Close), closeTapped),
 		layout.NewSpacer(),
 		w.clock,
 	)
@@ -95,9 +95,9 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 		),
 	)
 
-	w.today.header.SetText(assets.GetLabel("today"))
-	w.tomorrow.header.SetText(assets.GetLabel("tomorrow"))
-	w.afterTomorrow.header.SetText(assets.GetLabel("aftertomorrow"))
+	w.today.header.SetText(assets.GetLabel(assets.Today))
+	w.tomorrow.header.SetText(assets.GetLabel(assets.Tomorrow))
+	w.afterTomorrow.header.SetText(assets.GetLabel(assets.AfterTomorrow))
 	defaultBackground, _ := assets.GetBackgroundImage(weather.ConditionClear)
 	w.SetBackground(defaultBackground)
 
@@ -149,9 +149,11 @@ func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeathe
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	weather.city.SetText(data.Name)
-	weather.currentTemperature.SetText(fmt.Sprintf(assets.GetLabel("currenttemperature"), data.Main.Temp))
+	weather.currentTemperature.SetText(
+		fmt.Sprintf(assets.GetLabel(assets.CurrentTemperature), data.Main.Temp))
 
-	weather.lastUpdate.SetText(fmt.Sprintf(assets.GetLabel("lastupdate"), time.Now().Format("Mon 15:04")))
+	weather.lastUpdate.SetText(
+		fmt.Sprintf(assets.GetLabel(assets.LastUpdate), time.Now().Format("Mon 15:04")))
 }
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
@@ -190,11 +192,11 @@ func (forecast *forecast) updateInformation(
 	conditionIcon string,
 ) {
 	forecast.dayTemperature.SetText(
-		fmt.Sprintf(assets.GetLabel("daytimetemperature"), dayTimeTemperatue))
+		fmt.Sprintf(assets.GetLabel(assets.DayTimeTemperature), dayTimeTemperatue))
 	forecast.lowestTemperature.SetText(
-		fmt.Sprintf(assets.GetLabel("lowesttemperature"), minTemperature))
+		fmt.Sprintf(assets.GetLabel(assets.MinTemperature), minTemperature))
 	forecast.maximumTemperature.SetText(
-		fmt.Sprintf(assets.GetLabel("maximumtemperature"), maxTemperature))
+		fmt.Sprintf(assets.GetLabel(assets.MaxTemperature), maxTemperature))
 
 	res, err := assets.GetConditionIcon(conditionIcon)
 	if err != nil {
