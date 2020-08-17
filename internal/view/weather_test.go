@@ -6,7 +6,7 @@ import (
 
 	"fyne.io/fyne/test"
 	"github.com/EricNeid/go-openweather"
-	"github.com/EricNeid/go-weatherstation/internal/res"
+	"github.com/EricNeid/go-weatherstation/internal/assets"
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 
@@ -37,7 +37,7 @@ func TestWeatherSetTime(t *testing.T) {
 func TestSetCurrentTemperatureData(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestSetCurrentTemperatureData")
-	res.CurrentLocale = res.EN
+	assets.CurrentLocale = assets.EN
 	view, viewModel := NewWeather(nil)
 	window.SetContent(view)
 	testData := openweather.CurrentWeather{

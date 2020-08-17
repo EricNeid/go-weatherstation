@@ -9,8 +9,8 @@ import (
 	"fyne.io/fyne/layout"
 	"fyne.io/fyne/widget"
 	"github.com/EricNeid/go-openweather"
+	"github.com/EricNeid/go-weatherstation/internal/assets"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/res"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 )
 
@@ -72,7 +72,7 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 		layout.NewSpacer(),
 	)
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
-		widget.NewButton(res.GetLabel("close"), closeTapped),
+		widget.NewButton(assets.GetLabel("close"), closeTapped),
 		layout.NewSpacer(),
 		w.clock,
 	)
@@ -95,10 +95,10 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 		),
 	)
 
-	w.today.header.SetText(res.GetLabel("today"))
-	w.tomorrow.header.SetText(res.GetLabel("tomorrow"))
-	w.afterTomorrow.header.SetText(res.GetLabel("aftertomorrow"))
-	defaultBackground, _ := res.GetBackgroundImage(weather.ConditionClear)
+	w.today.header.SetText(assets.GetLabel("today"))
+	w.tomorrow.header.SetText(assets.GetLabel("tomorrow"))
+	w.afterTomorrow.header.SetText(assets.GetLabel("aftertomorrow"))
+	defaultBackground, _ := assets.GetBackgroundImage(weather.ConditionClear)
 	w.SetBackground(defaultBackground)
 
 	return w.view, &w
@@ -149,9 +149,9 @@ func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeathe
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	weather.city.SetText(data.Name)
-	weather.currentTemperature.SetText(fmt.Sprintf(res.GetLabel("currenttemperature"), data.Main.Temp))
+	weather.currentTemperature.SetText(fmt.Sprintf(assets.GetLabel("currenttemperature"), data.Main.Temp))
 
-	weather.lastUpdate.SetText(fmt.Sprintf(res.GetLabel("lastupdate"), time.Now().Format("Mon 15:04")))
+	weather.lastUpdate.SetText(fmt.Sprintf(assets.GetLabel("lastupdate"), time.Now().Format("Mon 15:04")))
 }
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
@@ -159,7 +159,7 @@ func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecas
 	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	condition := data.List[0].Weather[0].ID
-	image, err := res.GetBackgroundImage(condition)
+	image, err := assets.GetBackgroundImage(condition)
 	if err != nil {
 		log.E("SetForecastTemperatureData", err)
 	} else {
@@ -190,13 +190,13 @@ func (forecast *forecast) updateInformation(
 	conditionIcon string,
 ) {
 	forecast.dayTemperature.SetText(
-		fmt.Sprintf(res.GetLabel("daytimetemperature"), dayTimeTemperatue))
+		fmt.Sprintf(assets.GetLabel("daytimetemperature"), dayTimeTemperatue))
 	forecast.lowestTemperature.SetText(
-		fmt.Sprintf(res.GetLabel("lowesttemperature"), minTemperature))
+		fmt.Sprintf(assets.GetLabel("lowesttemperature"), minTemperature))
 	forecast.maximumTemperature.SetText(
-		fmt.Sprintf(res.GetLabel("maximumtemperature"), maxTemperature))
+		fmt.Sprintf(assets.GetLabel("maximumtemperature"), maxTemperature))
 
-	res, err := res.GetConditionIcon(conditionIcon)
+	res, err := assets.GetConditionIcon(conditionIcon)
 	if err != nil {
 		log.E("updateInformation", err)
 	} else {

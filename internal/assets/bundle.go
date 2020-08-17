@@ -1,6 +1,6 @@
 // auto-generated
 
-package res
+package assets
 
 import "fyne.io/fyne"
 

@@ -1,4 +1,4 @@
-package res
+package assets
 
 // DE stand for german language
 const DE Locale = "de"

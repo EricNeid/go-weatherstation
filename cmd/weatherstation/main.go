@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/EricNeid/go-weatherstation/internal/res"
+	"github.com/EricNeid/go-weatherstation/internal/assets"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/weatherstation"
 
@@ -24,7 +24,7 @@ type args struct {
 const city = "Berlin"
 
 func main() {
-	res.CurrentLocale = res.DE
+	assets.CurrentLocale = assets.DE
 	logger.Init()
 	args := parseArgs()
 
@@ -32,7 +32,7 @@ func main() {
 	w := a.NewWindow("Weatherinformation")
 
 	// set app icon
-	appIcon := res.GetAppIcon()
+	appIcon := assets.GetAppIcon()
 	a.SetIcon(appIcon)
 
 	// check api key file exists

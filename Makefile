@@ -6,7 +6,7 @@ init:
 	go get fyne.io/fyne/cmd/fyne 
 
 resources:
-	fyne bundle -package res ./assets/ > internal/res/bundle.go 
+	fyne bundle -package assets ./assets/ > internal/assets/bundle.go 
 
 distribute:
 	cd cmd/weatherstation \
