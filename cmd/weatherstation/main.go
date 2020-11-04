@@ -13,6 +13,7 @@ import (
 	"fyne.io/fyne"
 	"fyne.io/fyne/app"
 	"fyne.io/fyne/dialog"
+	"fyne.io/fyne/theme"
 )
 
 type args struct {
@@ -29,6 +30,9 @@ func main() {
 	args := parseArgs()
 
 	a := app.New()
+	// theming
+	a.Settings().SetTheme(theme.DarkTheme())
+
 	w := a.NewWindow("Weatherinformation")
 
 	// set app icon
