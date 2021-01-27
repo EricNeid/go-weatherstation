@@ -1,6 +1,6 @@
 .PHONY: test
 
-all: init resources test build distribute
+all: init resources test build
 
 init:
 	go get fyne.io/fyne/v2/cmd/fyne 
@@ -8,12 +8,8 @@ init:
 resources:
 	fyne bundle -package assets ./assets/ > internal/assets/bundle.go 
 
-distribute:
-	cd cmd/weatherstation \
-	&& fyne package -icon ../../assets/app_icon.png
-
 build:
-	cd cmd/weatherstation && go build
+	cd cmd/weatherstation && go build && fyne package -icon ../../assets/app_icon.png
 
 test:
 	go test ./...
