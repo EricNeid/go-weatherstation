@@ -1,8 +1,8 @@
 package view
 
 import (
-	"fyne.io/fyne"
-	"fyne.io/fyne/widget"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/widget"
 )
 
 // TransparentButton widget has a func when clicked and no further layout

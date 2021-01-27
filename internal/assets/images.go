@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"fyne.io/fyne"
+	"fyne.io/fyne/v2"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 )

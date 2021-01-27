@@ -3,7 +3,7 @@
 all: init resources test build distribute
 
 init:
-	go get fyne.io/fyne/cmd/fyne 
+	go get fyne.io/fyne/v2/cmd/fyne 
 
 resources:
 	fyne bundle -package assets ./assets/ > internal/assets/bundle.go 

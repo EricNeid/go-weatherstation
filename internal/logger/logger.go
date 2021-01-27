@@ -2,6 +2,7 @@ package logger
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 )
@@ -17,20 +18,26 @@ type Log struct {
 // Init configures logger to write to file
 func Init() {
 	logPath := "go-weatherstation.log"
+
+	// create logfile
 	f, err := os.OpenFile(logPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
-	internalLog = log.New(f, "", log.LstdFlags|log.Lshortfile)
+
+	// create log writer, writes to file and console
+	logWriter := io.MultiWriter(os.Stdout, f)
+
+	internalLog = log.New(logWriter, "", log.LstdFlags|log.Lshortfile)
 	internalLog.Println("LogFile : " + logPath)
 }
 
 // D writes the given message to log output
 func (l *Log) D(method string, msg string) {
-	internalLog.Printf("%s: %s: %s\n", l.Context, method, msg)
+	internalLog.Printf("%s: %s\n", method, msg)
 }
 
 // E writes the given error to log output
 func (l *Log) E(method string, err error) {
-	internalLog.Printf(fmt.Sprintf("ERROR: %s: %s: %s\n", l.Context, method, err.Error()), err)
+	internalLog.Printf(fmt.Sprintf("ERROR: %s: %s\n", method, err.Error()), err)
 }

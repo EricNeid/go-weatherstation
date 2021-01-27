@@ -4,10 +4,11 @@ import (
 	"fmt"
 	"time"
 
-	"fyne.io/fyne"
-	"fyne.io/fyne/canvas"
-	"fyne.io/fyne/layout"
-	"fyne.io/fyne/widget"
+	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
+	"fyne.io/fyne/v2/layout"
+	"fyne.io/fyne/v2/widget"
 	"github.com/EricNeid/go-openweather"
 	"github.com/EricNeid/go-weatherstation/internal/assets"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
@@ -68,7 +69,7 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 			w.city,
 			w.currentTemperature,
 		),
-		widget.NewVBox(),
+		container.NewVBox(),
 		layout.NewSpacer(),
 	)
 	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
