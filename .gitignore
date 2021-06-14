@@ -7,3 +7,4 @@ deploy.bat
 **/__debug_bin
 **/fyne.syso
 test/private
+*.log
