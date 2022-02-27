@@ -53,7 +53,6 @@ func main() {
 	if args.fullscreen {
 		w.SetFullScreen(true)
 	} else {
-		w.SetFixedSize(true)
 		w.Resize(fyne.NewSize(800, 480))
 	}
 
