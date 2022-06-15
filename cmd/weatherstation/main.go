@@ -30,7 +30,7 @@ func main() {
 	args := parseArgs()
 
 	a := app.New()
-	// theming
+	// theme
 	a.Settings().SetTheme(theme.DarkTheme())
 
 	w := a.NewWindow("Weatherinformation")
@@ -41,19 +41,18 @@ func main() {
 
 	// check api key file exists
 	if _, err := os.Stat(args.keyFile); os.IsNotExist(err) {
-		dialog.ShowError(errors.New("Could not load api key"), w)
+		dialog.ShowError(errors.New("could not load api key"), w)
 	}
 
 	// check if image dir exists
 	if _, err := os.Stat(args.imageDir); os.IsNotExist(err) {
-		dialog.ShowError(errors.New("Could not find image directory"), w)
+		dialog.ShowError(errors.New("could not find image directory"), w)
 	}
 
 	// set app size
 	if args.fullscreen {
 		w.SetFullScreen(true)
 	} else {
-		w.SetFixedSize(true)
 		w.Resize(fyne.NewSize(800, 480))
 	}
 
