@@ -16,7 +16,7 @@ Check out their git repository: <https://github.com/fyne-io/fyne>
 
 Requires:
 
-* go 1.13 or later
+* go
 * c compiler
 * For Debian/Ubuntu: libegl1-mesa-dev and xorg-dev
 
