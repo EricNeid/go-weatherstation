@@ -46,7 +46,7 @@ func NewScreenSaver(tapped func()) (view fyne.CanvasObject, viewModel *ScreenSav
 // SetBackground changes the displayed background image of this screen saver.
 func (screenSaver *ScreenSaver) SetBackground(filepath string) error {
 	if !util.IsFilePresent(filepath) {
-		return fmt.Errorf("Given file %s does not exits", filepath)
+		return fmt.Errorf("given file %s does not exits", filepath)
 	}
 	screenSaver.image.File = filepath
 	screenSaver.image.Refresh()

@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-var internalLog *log.Logger = log.New(os.Stderr, "", log.LstdFlags)
+var internalLog = log.New(os.Stderr, "", log.LstdFlags)
 
 // Log provides logging methods. Provide the given context (file or package name for example)
 // to be displayed in the log messages.
@@ -20,7 +20,7 @@ func Init() {
 	logPath := "go-weatherstation.log"
 
 	// create logfile
-	f, err := os.OpenFile(logPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	f, err := os.OpenFile(logPath, os.O_CREATE|os.O_RDWR|os.O_APPEND, 0o666)
 	if err != nil {
 		log.Fatalf("error opening file: %v", err)
 	}
@@ -33,7 +33,7 @@ func Init() {
 }
 
 // D writes the given message to log output
-func (l *Log) D(method string, msg string) {
+func (l *Log) D(method, msg string) {
 	internalLog.Printf("%s: %s\n", method, msg)
 }
 

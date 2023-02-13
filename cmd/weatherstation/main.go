@@ -17,19 +17,30 @@ import (
 	"fyne.io/fyne/v2/theme"
 )
 
-type args struct {
-	fullscreen bool
-	imageDir   string
-	keyFile    string
-}
+var (
+	fullScreen = false
+	imageDir   = "screensaver"
+	keyFile    = "api.key"
+)
 
 const city = "Berlin"
 
 func main() {
+	// init
 	assets.CurrentLocale = assets.DE
 	logger.Init()
-	args := parseArgs()
+	// read cli arguments
+	flag.Usage = func() {
+		fmt.Printf("Usage: %s\n", os.Args[0])
+		flag.PrintDefaults()
+	}
 
+	flag.BoolVar(&fullScreen, "fullscreen", fullScreen, "show app in fullscreen mode")
+	flag.StringVar(&imageDir, "screensaver", imageDir, "directory, containing images for the screensaver")
+	flag.StringVar(&keyFile, "key", keyFile, "file, containing api key for openweather")
+	flag.Parse()
+
+	// create application
 	a := app.New()
 	a.Settings().SetTheme(theme.DarkTheme())
 	// set app icon
@@ -42,39 +53,23 @@ func main() {
 	w := a.NewWindow("Weatherinformation")
 
 	// check api key file exists
-	if _, err := os.Stat(args.keyFile); os.IsNotExist(err) {
+	if _, err := os.Stat(keyFile); os.IsNotExist(err) {
 		dialog.ShowError(errors.New("could not load api key"), w)
 	}
 
 	// check if image dir exists
-	if _, err := os.Stat(args.imageDir); os.IsNotExist(err) {
+	if _, err := os.Stat(imageDir); os.IsNotExist(err) {
 		dialog.ShowError(errors.New("could not find image directory"), w)
 	}
 
 	// set app size
-	if args.fullscreen {
+	if fullScreen {
 		w.SetFullScreen(true)
 	} else {
 		w.Resize(fyne.NewSize(800, 480))
 	}
 
-	app := weatherstation.NewApp(a, w, city, args.keyFile, args.imageDir)
+	app := weatherstation.NewApp(a, w, city, keyFile, imageDir)
 
 	app.Start()
-}
-
-func parseArgs() args {
-	flag.Usage = func() {
-		fmt.Printf("Usage: %s\n", os.Args[0])
-		flag.PrintDefaults()
-	}
-
-	var args args
-	flag.BoolVar(&args.fullscreen, "fullscreen", false, "show app in fullscreen mode")
-	flag.StringVar(&args.imageDir, "screensaver", "screensaver", "directory, containing images for the screensave")
-	flag.StringVar(&args.keyFile, "key", "api.key", "file, containing api key for openweather")
-
-	flag.Parse()
-
-	return args
 }

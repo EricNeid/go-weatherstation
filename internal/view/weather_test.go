@@ -53,7 +53,7 @@ func TestSetCurrentTemperatureData(t *testing.T) {
 		},
 	}
 	// action
-	viewModel.SetCurrentTemperatureData(testData)
+	viewModel.SetCurrentTemperatureData(&testData)
 	// verify
 	verify.Equals(t, "TestCity", viewModel.city.Text)
 	verify.Equals(t, "current temperature: 42.03°", viewModel.currentTemperature.Text)

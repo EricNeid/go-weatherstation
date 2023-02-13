@@ -8,3 +8,4 @@ deploy.bat
 **/fyne.syso
 test/private
 *.log
+**/out

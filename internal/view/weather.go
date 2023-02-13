@@ -146,7 +146,7 @@ func (weather *Weather) SetTime(t time.Time) {
 }
 
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
-func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeather) {
+func (weather *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	weather.city.SetText(data.Name)
@@ -158,7 +158,7 @@ func (weather *Weather) SetCurrentTemperatureData(data openweather.CurrentWeathe
 }
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
-func (weather *Weather) SetForecastTemperatureData(data openweather.DailyForecast5) {
+func (weather *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
 	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	condition := data.List[0].Weather[0].ID

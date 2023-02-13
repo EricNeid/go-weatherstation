@@ -14,7 +14,7 @@ const (
 )
 
 // CurrentLocale configures the locale used to return localized strings
-var CurrentLocale Locale = EN
+var CurrentLocale = EN
 
 const (
 	// Today is today

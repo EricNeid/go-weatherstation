@@ -21,7 +21,7 @@ type StringRingList struct {
 // It will throw an error, if the list is empty.
 func (list *StringRingList) Next() (string, error) {
 	if len(list.Items) == 0 {
-		return "", errors.New("Cannot call Next() on empty list")
+		return "", errors.New("cannot call Next() on empty list")
 	}
 
 	item := list.Items[list.current]
@@ -29,7 +29,7 @@ func (list *StringRingList) Next() (string, error) {
 	if list.current >= len(list.Items)-1 {
 		list.current = 0
 	} else {
-		list.current = list.current + 1
+		list.current++
 	}
 
 	return item, nil

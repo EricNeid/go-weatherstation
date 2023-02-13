@@ -4,7 +4,7 @@ package weatherstation
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 	"strings"
 	"time"
 
@@ -67,7 +67,7 @@ type App struct {
 }
 
 // NewApp generates new instance of weatherstation application.
-func NewApp(fyneApp fyne.App, window fyne.Window, city string, keyFile string, imageDir string) App {
+func NewApp(fyneApp fyne.App, window fyne.Window, city, keyFile, imageDir string) App {
 	// channel currentScreen is used to changed the currently displayed view
 	currentScreen := make(chan screen)
 
@@ -118,7 +118,7 @@ func (app *App) Start() {
 }
 
 func (app *App) loadKey(keyFile string) {
-	key, err := ioutil.ReadFile(keyFile)
+	key, err := os.ReadFile(keyFile)
 	if err != nil {
 		app.showError(err)
 	} else {
@@ -127,7 +127,7 @@ func (app *App) loadKey(keyFile string) {
 		apiKey = strings.ReplaceAll(apiKey, "\n", "")
 		apiKey = strings.ReplaceAll(apiKey, "\r", "")
 
-		app.openWeatherKey = string(apiKey)
+		app.openWeatherKey = apiKey
 	}
 }
 
@@ -185,14 +185,14 @@ func (app *App) startWeatherInformationUpdates(city string) {
 			if err != nil {
 				app.showError(err)
 			} else {
-				app.weather.SetCurrentTemperatureData(current)
+				app.weather.SetCurrentTemperatureData(&current)
 			}
 
 			forecast, err := weather.Forecast(app.openWeatherKey, city)
 			if err != nil {
 				app.showError(err)
 			} else {
-				app.weather.SetForecastTemperatureData(forecast)
+				app.weather.SetForecastTemperatureData(&forecast)
 			}
 
 			time.Sleep(weatherUpdateDelay)
@@ -218,6 +218,6 @@ func (app *App) startCurrentScreenHandler() {
 }
 
 func (app *App) showError(err error) {
-	log.D("showError", fmt.Sprintf("%s", err.Error()))
+	log.D("showError", err.Error())
 	dialog.ShowError(err, app.window)
 }
