@@ -1,8 +1,11 @@
 package util
 
-import "testing"
-import "time"
-import "github.com/EricNeid/go-weatherstation/internal/verify"
+import (
+	"testing"
+	"time"
+
+	"github.com/EricNeid/go-weatherstation/internal/verify"
+)
 
 func TestIntervalContains_shouldReturnTrue(t *testing.T) {
 	// arrange
