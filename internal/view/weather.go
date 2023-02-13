@@ -133,32 +133,32 @@ func newForecast() forecast {
 }
 
 // SetBackground changes the background image of the weather screen.
-func (weather *Weather) SetBackground(image fyne.Resource) error {
-	weather.background.Resource = image
-	weather.background.Refresh()
+func (w *Weather) SetBackground(image fyne.Resource) error {
+	w.background.Resource = image
+	w.background.Refresh()
 	return nil
 }
 
 // SetTime sets the time to be displayed.
-func (weather *Weather) SetTime(t time.Time) {
+func (w *Weather) SetTime(t time.Time) {
 	str := t.Format("Mon 15:04")
-	weather.clock.SetText(str)
+	w.clock.SetText(str)
 }
 
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
-func (weather *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
+func (w *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
 	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
 
-	weather.city.SetText(data.Name)
-	weather.currentTemperature.SetText(
+	w.city.SetText(data.Name)
+	w.currentTemperature.SetText(
 		fmt.Sprintf(assets.GetLabel(assets.CurrentTemperature), data.Main.Temp))
 
-	weather.lastUpdate.SetText(
+	w.lastUpdate.SetText(
 		fmt.Sprintf(assets.GetLabel(assets.LastUpdate), time.Now().Format("Mon 15:04")))
 }
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
-func (weather *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
+func (w *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
 	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
 
 	condition := data.List[0].Weather[0].ID
@@ -166,20 +166,20 @@ func (weather *Weather) SetForecastTemperatureData(data *openweather.DailyForeca
 	if err != nil {
 		log.E("SetForecastTemperatureData", err)
 	} else {
-		weather.SetBackground(image)
+		w.SetBackground(image)
 	}
 
-	weather.today.updateInformation(
+	w.today.updateInformation(
 		data.List[0].Temp.Day,
 		data.List[0].Temp.Min,
 		data.List[0].Temp.Max,
 		data.List[0].Weather[0].Icon)
-	weather.tomorrow.updateInformation(
+	w.tomorrow.updateInformation(
 		data.List[1].Temp.Day,
 		data.List[1].Temp.Min,
 		data.List[1].Temp.Max,
 		data.List[1].Weather[0].Icon)
-	weather.afterTomorrow.updateInformation(
+	w.afterTomorrow.updateInformation(
 		data.List[2].Temp.Day,
 		data.List[2].Temp.Min,
 		data.List[2].Temp.Max,
@@ -209,15 +209,15 @@ func (forecast *forecast) updateInformation(
 }
 
 // Hide makes the ui invisible
-func (weather *Weather) Hide() {
-	if !weather.view.Hidden {
-		weather.view.Hide()
+func (w *Weather) Hide() {
+	if !w.view.Hidden {
+		w.view.Hide()
 	}
 }
 
 // Show makes the ui visible
-func (weather *Weather) Show() {
-	if weather.view.Hidden {
-		weather.view.Show()
+func (w *Weather) Show() {
+	if w.view.Hidden {
+		w.view.Show()
 	}
 }
