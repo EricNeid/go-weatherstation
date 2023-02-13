@@ -3,8 +3,11 @@
     "files.encoding": "utf8"
   },
   "cSpell.words": [
+    "daytimetemperature",
     "fullscreen",
     "fyne",
+    "lowesttemperature",
+    "maximumtemperature",
     "openweather",
     "weatherstation"
   ]

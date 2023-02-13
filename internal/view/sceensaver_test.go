@@ -43,11 +43,11 @@ func TestSetBackground(t *testing.T) {
 func TestScreenSaverSetTime(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestScreenSaverSetTime")
-	time := time.Now()
+	testTime := time.Now()
 	view, viewModel := NewScreenSaver(nil)
 	window.SetContent(view)
 	// action
-	viewModel.SetTime(time)
+	viewModel.SetTime(testTime)
 	// verify
-	verify.Equals(t, time.Format("Mon 15:04"), viewModel.clock.Text)
+	verify.Equals(t, testTime.Format("Mon 15:04"), viewModel.clock.Text)
 }

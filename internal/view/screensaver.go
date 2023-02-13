@@ -6,6 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/canvas"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"github.com/EricNeid/go-weatherstation/internal/util"
@@ -27,14 +28,14 @@ func NewScreenSaver(tapped func()) (view fyne.CanvasObject, viewModel *ScreenSav
 
 	s.image = &canvas.Image{FillMode: canvas.ImageFillStretch}
 
-	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+	footer := container.New(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
 		s.clock,
 	)
-	s.view = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	s.view = container.New(layout.NewMaxLayout(),
 		s.image,
 		NewTransparentButton(tapped),
-		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		container.New(layout.NewVBoxLayout(),
 			layout.NewSpacer(),
 			footer,
 		),

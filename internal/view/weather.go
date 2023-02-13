@@ -63,31 +63,31 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 	w.tomorrow = newForecast()
 	w.afterTomorrow = newForecast()
 
-	header := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+	header := container.New(layout.NewHBoxLayout(),
 		layout.NewSpacer(),
-		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		container.New(layout.NewVBoxLayout(),
 			w.city,
 			w.currentTemperature,
 		),
 		container.NewVBox(),
 		layout.NewSpacer(),
 	)
-	footer := fyne.NewContainerWithLayout(layout.NewHBoxLayout(),
+	footer := container.New(layout.NewHBoxLayout(),
 		widget.NewButton(assets.GetLabel(assets.Close), closeTapped),
 		layout.NewSpacer(),
 		w.clock,
 	)
-	center := fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
-		fyne.NewContainerWithLayout(layout.NewGridLayout(3),
+	center := container.New(layout.NewVBoxLayout(),
+		container.New(layout.NewGridLayout(3),
 			w.today.layout,
 			w.tomorrow.layout,
 			w.afterTomorrow.layout,
 		),
 		w.lastUpdate,
 	)
-	w.view = fyne.NewContainerWithLayout(layout.NewMaxLayout(),
+	w.view = container.New(layout.NewMaxLayout(),
 		w.background,
-		fyne.NewContainerWithLayout(layout.NewVBoxLayout(),
+		container.New(layout.NewVBoxLayout(),
 			header,
 			layout.NewSpacer(),
 			center,
@@ -106,30 +106,30 @@ func NewWeather(closeTapped func()) (view fyne.CanvasObject, viewModel *Weather)
 }
 
 func newForecast() forecast {
-	forecast := forecast{
+	f := forecast{
 		header:             widget.NewLabel("header"),
 		dayTemperature:     widget.NewLabel("daytimetemperature"),
 		lowestTemperature:  widget.NewLabel("lowesttemperature"),
 		maximumTemperature: widget.NewLabel("maximumtemperature"),
 		icon:               &canvas.Image{},
 	}
-	forecast.icon.SetMinSize(fyne.NewSize(56, 56))
-	forecast.layout = fyne.NewContainerWithLayout(layout.NewGridLayout(1),
-		forecast.header,
-		forecast.dayTemperature,
-		forecast.lowestTemperature,
-		forecast.maximumTemperature,
-		fyne.NewContainerWithLayout(layout.NewCenterLayout(),
-			forecast.icon,
+	f.icon.SetMinSize(fyne.NewSize(56, 56))
+	f.layout = container.New(layout.NewGridLayout(1),
+		f.header,
+		f.dayTemperature,
+		f.lowestTemperature,
+		f.maximumTemperature,
+		container.New(layout.NewCenterLayout(),
+			f.icon,
 		),
 	)
-	forecast.header.Alignment = fyne.TextAlignCenter
-	forecast.header.TextStyle.Bold = true
-	forecast.dayTemperature.Alignment = fyne.TextAlignCenter
-	forecast.lowestTemperature.Alignment = fyne.TextAlignCenter
-	forecast.maximumTemperature.Alignment = fyne.TextAlignCenter
+	f.header.Alignment = fyne.TextAlignCenter
+	f.header.TextStyle.Bold = true
+	f.dayTemperature.Alignment = fyne.TextAlignCenter
+	f.lowestTemperature.Alignment = fyne.TextAlignCenter
+	f.maximumTemperature.Alignment = fyne.TextAlignCenter
 
-	return forecast
+	return f
 }
 
 // SetBackground changes the background image of the weather screen.

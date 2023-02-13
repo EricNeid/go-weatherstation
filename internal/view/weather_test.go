@@ -25,13 +25,13 @@ func TestNewWeather(t *testing.T) {
 func TestWeatherSetTime(t *testing.T) {
 	// arrange
 	window := test.NewApp().NewWindow("TestWeatherSetTime")
-	time := time.Now()
+	currentTime := time.Now()
 	view, viewModel := NewWeather(nil)
 	window.SetContent(view)
 	// action
-	viewModel.SetTime(time)
+	viewModel.SetTime(currentTime)
 	// verify
-	verify.Equals(t, time.Format("Mon 15:04"), viewModel.clock.Text)
+	verify.Equals(t, currentTime.Format("Mon 15:04"), viewModel.clock.Text)
 }
 
 func TestSetCurrentTemperatureData(t *testing.T) {

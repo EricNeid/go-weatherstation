@@ -14,6 +14,7 @@ import (
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 
 	"fyne.io/fyne/v2"
+	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/dialog"
 	"fyne.io/fyne/v2/layout"
 )
@@ -57,7 +58,7 @@ type App struct {
 	app    fyne.App
 	window fyne.Window
 
-	container   *fyne.Container
+	canvas      *fyne.Container
 	screenSaver *view.ScreenSaver
 	weather     *view.Weather
 
@@ -88,7 +89,7 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city, keyFile, imageDir string
 	app := App{
 		app:    fyneApp,
 		window: window,
-		container: fyne.NewContainerWithLayout(
+		canvas: container.New(
 			layout.NewMaxLayout(),
 			viewScreensaver,
 			viewWeather,
@@ -112,7 +113,7 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city, keyFile, imageDir string
 // Start starts the ui lifecycle of this weatherstation.
 func (app *App) Start() {
 	log.D("start", "")
-	app.window.SetContent(app.container)
+	app.window.SetContent(app.canvas)
 	app.currentScreen <- screensaver // initial view is the screensaver
 	app.window.ShowAndRun()
 }
@@ -212,7 +213,7 @@ func (app *App) startCurrentScreenHandler() {
 				app.screenSaver.Show()
 				app.weather.Hide()
 			}
-			app.container.Refresh()
+			app.canvas.Refresh()
 		}
 	}()
 }
