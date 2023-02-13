@@ -13,7 +13,6 @@ import (
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
 	"fyne.io/fyne/v2/dialog"
-	"fyne.io/fyne/v2/driver/desktop"
 	"fyne.io/fyne/v2/theme"
 )
 
@@ -46,9 +45,6 @@ func main() {
 	// set app icon
 	appIcon := assets.GetAppIcon()
 	a.SetIcon(appIcon)
-	if desk, ok := a.(desktop.App); ok {
-		desk.SetSystemTrayIcon(appIcon)
-	}
 
 	w := a.NewWindow("Weatherinformation")
 
