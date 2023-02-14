@@ -1,6 +1,6 @@
 // Package weatherstation is a simple gui application to display either some screen saver images
-// like a digitail photo frame or the weather forecast for the next 3 days (from openweather).
-package weatherstation
+// like a digital photo frame or the weather forecast for the next 3 days (from openweather).
+package goweatherstation
 
 import (
 	"fmt"
@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/weather"
 	"github.com/EricNeid/go-weatherstation/ringlist"
 	"github.com/EricNeid/go-weatherstation/ui"
+	"github.com/EricNeid/go-weatherstation/weather"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"

@@ -6,7 +6,7 @@ import (
 
 	"fyne.io/fyne/v2/test"
 	"github.com/EricNeid/go-openweather"
-	"github.com/EricNeid/go-weatherstation/internal/assets"
+	"github.com/EricNeid/go-weatherstation/assets"
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 

@@ -8,12 +8,12 @@ init:
 
 .PHONY: resources
 resources: init
-	fyne bundle -package assets ./assets/ > internal/assets/bundle.go 
+	fyne bundle -package assets ./resources/ > ./assets/bundle.go 
 
 
 .PHONY: build
-build: init
-	fyne package -icon assets/app_icon.png -sourceDir cmd/weatherstation/
+build: init resources
+	fyne package -icon resources/app_icon.png -sourceDir cmd/weatherstation/
 
 
 .PHONY: test

@@ -10,9 +10,9 @@ import (
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
 	"github.com/EricNeid/go-openweather"
-	"github.com/EricNeid/go-weatherstation/internal/assets"
+	"github.com/EricNeid/go-weatherstation/assets"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/weather"
+	"github.com/EricNeid/go-weatherstation/weather"
 )
 
 var log = logger.Log{Context: "weather"}

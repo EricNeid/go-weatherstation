@@ -6,7 +6,7 @@ import (
 
 	"fyne.io/fyne/v2"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/weather"
+	"github.com/EricNeid/go-weatherstation/weather"
 )
 
 var log = logger.Log{Context: "images"}

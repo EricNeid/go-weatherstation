@@ -6,9 +6,9 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/EricNeid/go-weatherstation/internal/assets"
+	weatherstation "github.com/EricNeid/go-weatherstation"
+	"github.com/EricNeid/go-weatherstation/assets"
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/weatherstation"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -40,13 +40,10 @@ func main() {
 	flag.Parse()
 
 	// create application
-	a := app.New()
-	a.Settings().SetTheme(theme.DarkTheme())
-	// set app icon
-	appIcon := assets.GetAppIcon()
-	a.SetIcon(appIcon)
-
-	w := a.NewWindow("Weatherinformation")
+	fyneApp := app.New()
+	fyneApp.Settings().SetTheme(theme.DarkTheme())
+	fyneApp.SetIcon(assets.GetAppIcon())
+	w := fyneApp.NewWindow("Weatherinformation")
 
 	// check api key file exists
 	if _, err := os.Stat(keyFile); os.IsNotExist(err) {
@@ -65,7 +62,7 @@ func main() {
 		w.Resize(fyne.NewSize(800, 480))
 	}
 
-	app := weatherstation.NewApp(a, w, city, keyFile, imageDir)
+	app := weatherstation.NewApp(fyneApp, w, city, keyFile, imageDir)
 
 	app.Start()
 }

@@ -1,4 +1,4 @@
-package weatherstation
+package goweatherstation
 
 import (
 	"testing"
