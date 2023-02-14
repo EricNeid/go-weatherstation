@@ -8,7 +8,7 @@ import (
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 
-const testDir = "../../test"
+const testDir = "../../testdata"
 
 func TestNewScreenSaver(t *testing.T) {
 	// arrange
@@ -28,16 +28,16 @@ func TestSetBackground(t *testing.T) {
 	window.SetContent(view)
 
 	// action
-	err := viewModel.SetBackground(testDir + "/testdata/img-1.png")
+	err := viewModel.SetBackground(testDir + "/img-1.png")
 	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, testDir+"/testdata/img-1.png", viewModel.image.File)
+	verify.Equals(t, testDir+"/img-1.png", viewModel.image.File)
 
 	// action
-	err = viewModel.SetBackground(testDir + "/testdata/dir/img-2.png")
+	err = viewModel.SetBackground(testDir + "/dir/img-2.png")
 	// verify
 	verify.Ok(t, err)
-	verify.Equals(t, testDir+"/testdata/dir/img-2.png", viewModel.image.File)
+	verify.Equals(t, testDir+"/dir/img-2.png", viewModel.image.File)
 }
 
 func TestScreenSaverSetTime(t *testing.T) {

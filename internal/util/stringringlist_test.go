@@ -23,7 +23,7 @@ func TestNext(t *testing.T) {
 
 func TestNewFileRingList(t *testing.T) {
 	// action
-	result := NewFileRingList("../../test/testdata")
+	result := NewFileRingList("../../testdata")
 
 	// verify
 	verify.Equals(t, 2, len(result.Items))
