@@ -1,4 +1,4 @@
-package view
+package ui
 
 import (
 	"testing"
@@ -8,7 +8,7 @@ import (
 	"github.com/EricNeid/go-weatherstation/internal/verify"
 )
 
-const testDir = "../../testdata"
+const testDir = "../testdata"
 
 func TestNewScreenSaver(t *testing.T) {
 	// arrange
@@ -54,21 +54,21 @@ func TestScreenSaverSetTime(t *testing.T) {
 
 func TestIsFilePresent_shouldReturnTrue(t *testing.T) {
 	// action
-	result := isFilePresent("../../testdata/img-1.png")
+	result := isFilePresent(testDir + "/img-1.png")
 	// verify
 	verify.Equals(t, true, result)
 }
 
 func TestIsFilePresent_shouldReturnFalse(t *testing.T) {
 	// action
-	result := isFilePresent("../../testdata/no-file")
+	result := isFilePresent(testDir + "/no-file")
 	// verify
 	verify.Equals(t, false, result)
 }
 
 func TestIsFilePresent_shouldReturnFalseBecauseDirectory(t *testing.T) {
 	// action
-	result := isFilePresent("../../testdata/dir")
+	result := isFilePresent(testDir + "/dir")
 	// verify
 	verify.Equals(t, false, result)
 }
