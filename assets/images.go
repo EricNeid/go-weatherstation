@@ -2,14 +2,12 @@ package assets
 
 import (
 	"fmt"
+	"log"
 	"strconv"
 
 	"fyne.io/fyne/v2"
-	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/weather"
 )
-
-var log = logger.Log{Context: "images"}
 
 var backgroundWeather = map[int]fyne.Resource{
 	2:                      resourceBackgroundthunderJpg,
@@ -25,7 +23,7 @@ var backgroundWeather = map[int]fyne.Resource{
 // given condition code. See https://openweathermap.org/weather-conditions for conditions.
 // Only the first digit is used to display the primary weather condition (all types of snow are returned with same image).
 func GetBackgroundImage(weatherConditionID int) (fyne.Resource, error) {
-	log.D("GetBackgroundImage", fmt.Sprintf("Condition id is: %d", weatherConditionID))
+	log.Println("images", "GetBackgroundImage", weatherConditionID)
 
 	cond := strconv.Itoa(weatherConditionID)
 	primaryCond, err := strconv.Atoi(string(cond[0]))

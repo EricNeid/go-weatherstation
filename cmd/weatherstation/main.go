@@ -4,11 +4,13 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"log"
 	"os"
 
 	weatherstation "github.com/EricNeid/go-weatherstation"
 	"github.com/EricNeid/go-weatherstation/assets"
-	"github.com/EricNeid/go-weatherstation/internal/logger"
+	"github.com/EricNeid/go-weatherstation/writer"
+	"gopkg.in/natefinch/lumberjack.v2"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -25,9 +27,21 @@ var (
 const city = "Berlin"
 
 func main() {
-	// init
+	// init logger
+	logOut := writer.LazyMultiWriter(
+		os.Stdout,
+		&lumberjack.Logger{
+			Filename:   "log/go-weatherstation.log",
+			MaxSize:    50, // megabytes
+			MaxBackups: 3,
+			MaxAge:     28, // days
+		},
+	)
+	log.SetOutput(logOut)
+
+	// set locale
 	assets.CurrentLocale = assets.DE
-	logger.Init()
+
 	// read cli arguments
 	flag.Usage = func() {
 		fmt.Printf("Usage: %s\n", os.Args[0])

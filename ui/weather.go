@@ -2,6 +2,7 @@ package ui
 
 import (
 	"fmt"
+	"log"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -11,11 +12,8 @@ import (
 	"fyne.io/fyne/v2/widget"
 	"github.com/EricNeid/go-openweather"
 	"github.com/EricNeid/go-weatherstation/assets"
-	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/weather"
 )
-
-var log = logger.Log{Context: "weather"}
 
 // Weather represents information view for weather information.
 // View property represents actual UI which can be added to a window.
@@ -147,7 +145,7 @@ func (w *Weather) SetTime(t time.Time) {
 
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
 func (w *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
-	log.D("SetCurrentTemperatureData", fmt.Sprintf("Received %+v", data))
+	log.Println("weather", "SetCurrentTemperatureData", data)
 
 	w.city.SetText(data.Name)
 	w.currentTemperature.SetText(
@@ -159,12 +157,12 @@ func (w *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
 func (w *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
-	log.D("SetForecastTemperatureData", fmt.Sprintf("Received %+v", data))
+	log.Println("weather", "SetForecastTemperatureData", data)
 
 	condition := data.List[0].Weather[0].ID
 	image, err := assets.GetBackgroundImage(condition)
 	if err != nil {
-		log.E("SetForecastTemperatureData", err)
+		log.Panicln("weather", "SetForecastTemperatureData", "error while getting background image", err)
 	} else {
 		w.SetBackground(image)
 	}
@@ -201,7 +199,7 @@ func (forecast *forecast) updateInformation(
 
 	res, err := assets.GetConditionIcon(conditionIcon)
 	if err != nil {
-		log.E("updateInformation", err)
+		log.Panicln("weather", "SetForecastTemperatureData", "error while getting condition icon", err)
 	} else {
 		forecast.icon.Resource = res
 		forecast.icon.Refresh()
