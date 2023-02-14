@@ -3,7 +3,7 @@ DIR := ${CURDIR}
 
 .PHONY: init
 init:
-	go get fyne.io/fyne/v2/cmd/fyne@v2.2.1
+	go install fyne.io/fyne/v2/cmd/fyne@v2.2.1
 
 
 .PHONY: resources
@@ -13,7 +13,8 @@ resources: init
 
 .PHONY: build
 build: init resources
-	fyne package -icon resources/app_icon.png -sourceDir cmd/weatherstation/
+	cd cmd/weatherstation && fyne package -icon ../../resources/app_icon.png
+#	fyne package -icon app_icon.png -sourceDir cmd/weatherstation/
 
 
 .PHONY: test
