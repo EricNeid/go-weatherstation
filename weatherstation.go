@@ -4,11 +4,11 @@ package goweatherstation
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"strings"
 	"time"
 
-	"github.com/EricNeid/go-weatherstation/internal/logger"
 	"github.com/EricNeid/go-weatherstation/ringlist"
 	"github.com/EricNeid/go-weatherstation/ui"
 	"github.com/EricNeid/go-weatherstation/weather"
@@ -65,8 +65,6 @@ var fixedShowWeather = timeInterval{
 	EndHour:   9,
 }
 
-var log = logger.Log{Context: "weatherstation"}
-
 // App represents the main weatherstation application.
 // It glues ui and services together.
 type App struct {
@@ -88,15 +86,15 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city, keyFile, imageDir string
 	currentScreen := make(chan screen)
 
 	weatherView, weatherViewModel := ui.NewWeather(func() {
-		log.D("closeTapped", "closing app")
+		log.Println("weatherstation", "close tapped", "closing app")
 		fyneApp.Quit()
 	})
 	screensaverView, screensaverViewModel := ui.NewScreenSaver(func() {
-		log.D("screensaver tapped", "switching to weather information")
+		log.Println("weatherstation", "screensaver tapped", "switching to weather information")
 		currentScreen <- weatherinformation
 		go func() {
 			time.Sleep(switchBackDelay)
-			log.D("screensaver tapped", "switching back to screensaver")
+			log.Println("weatherstation", "screensaver tapped", "switching back to screensaver")
 			currentScreen <- screensaver
 		}()
 	})
@@ -127,7 +125,7 @@ func NewApp(fyneApp fyne.App, window fyne.Window, city, keyFile, imageDir string
 
 // Start starts the ui lifecycle of this weatherstation.
 func (app *App) Start() {
-	log.D("start", "")
+	log.Println("weatherstation", "Start")
 	app.window.SetContent(app.canvas)
 	app.currentScreen <- screensaver // initial view is the screensaver
 	app.window.ShowAndRun()
@@ -148,13 +146,13 @@ func (app *App) loadKey(keyFile string) {
 }
 
 func (app *App) startScreenSaverUpdates(imageDir string) {
-	log.D("startScreenSaverUpdates", "")
+	log.Println("weatherstation", "startScreenSaverUpdates", imageDir)
 	backgroundImages := ringlist.NewFileRingList(imageDir)
 	backgroundImages.Shuffle()
 	go func() {
 		for {
 			file, _ := backgroundImages.Next()
-			log.D("startScreenSaverUpdates", fmt.Sprintf("Switching to %s", file))
+			log.Println("weatherstation", "startScreenSaverUpdates", fmt.Sprintf("Switching to %s", file))
 			if err := app.screenSaver.SetBackground(file); err != nil {
 				app.showError(err)
 			}
@@ -166,10 +164,10 @@ func (app *App) startScreenSaverUpdates(imageDir string) {
 // startCheckScreen checks which screen should be displayed on a regular basis.
 // During fixedShowWeather the weather screen should be display by default.0
 func (app *App) startCheckScreen() {
-	log.D("startCheckScreen", "")
+	log.Println("weatherstation", "startCheckScreen")
 	go func() {
 		for {
-			log.D("startCheckScreen", "Check screen to display")
+			log.Println("weatherstation", "startCheckScreen", "checking screen to display")
 			if fixedShowWeather.contains(time.Now()) {
 				app.currentScreen <- weatherinformation
 			} else {
@@ -181,7 +179,7 @@ func (app *App) startCheckScreen() {
 }
 
 func (app *App) startClockUpdates() {
-	log.D("startClockUpdates", "")
+	log.Println("weatherstation", "startClockUpdates")
 	go func() {
 		for {
 			app.weather.SetTime(time.Now())
@@ -192,10 +190,10 @@ func (app *App) startClockUpdates() {
 }
 
 func (app *App) startWeatherInformationUpdates(city string) {
-	log.D("startWeatherInformationUpdates", "")
+	log.Panicln("weatherstation", "startWeatherInformationUpdates", city)
 	go func() {
 		for {
-			log.D("startWeatherInformationUpdates", "Update weather information")
+			log.Panicln("weatherstation", "startWeatherInformationUpdates", "update weather information")
 
 			current, err := weather.Current(app.openWeatherKey, city)
 			if err != nil {
@@ -217,7 +215,7 @@ func (app *App) startWeatherInformationUpdates(city string) {
 }
 
 func (app *App) startCurrentScreenHandler() {
-	log.D("startCurrentScreenHandler", "")
+	log.Println("weatherstation", "startCurrentScreenHandler")
 	go func() {
 		for {
 			currentScreen := <-app.currentScreen
@@ -234,6 +232,6 @@ func (app *App) startCurrentScreenHandler() {
 }
 
 func (app *App) showError(err error) {
-	log.D("showError", err.Error())
+	log.Println("weatherstation", "showError", err)
 	dialog.ShowError(err, app.window)
 }
