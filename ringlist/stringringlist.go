@@ -1,4 +1,4 @@
-package util
+package ringlist
 
 import (
 	"errors"

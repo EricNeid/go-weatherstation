@@ -12,6 +12,7 @@ import (
 	"github.com/EricNeid/go-weatherstation/internal/util"
 	"github.com/EricNeid/go-weatherstation/internal/view"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
+	"github.com/EricNeid/go-weatherstation/ringlist"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/container"
@@ -134,7 +135,7 @@ func (app *App) loadKey(keyFile string) {
 
 func (app *App) startScreenSaverUpdates(imageDir string) {
 	log.D("startScreenSaverUpdates", "")
-	backgroundImages := util.NewFileRingList(imageDir)
+	backgroundImages := ringlist.NewFileRingList(imageDir)
 	backgroundImages.Shuffle()
 	go func() {
 		for {

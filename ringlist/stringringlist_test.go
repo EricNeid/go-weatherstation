@@ -1,4 +1,4 @@
-package util
+package ringlist
 
 import (
 	"testing"
@@ -23,7 +23,7 @@ func TestNext(t *testing.T) {
 
 func TestNewFileRingList(t *testing.T) {
 	// action
-	result := NewFileRingList("../../testdata")
+	result := NewFileRingList("../testdata")
 
 	// verify
 	verify.Equals(t, 2, len(result.Items))

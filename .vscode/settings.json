@@ -9,6 +9,7 @@
     "lowesttemperature",
     "maximumtemperature",
     "openweather",
+    "ringlist",
     "weatherstation"
   ]
 }
