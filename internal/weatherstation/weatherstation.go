@@ -9,7 +9,6 @@ import (
 	"time"
 
 	"github.com/EricNeid/go-weatherstation/internal/logger"
-	"github.com/EricNeid/go-weatherstation/internal/util"
 	"github.com/EricNeid/go-weatherstation/internal/view"
 	"github.com/EricNeid/go-weatherstation/internal/weather"
 	"github.com/EricNeid/go-weatherstation/ringlist"
@@ -43,10 +42,25 @@ const (
 	weatherinformation
 )
 
+// TimeInterval defines a time interval, determined by start and end hour
+type timeInterval struct {
+	StartHour int
+	EndHour   int
+}
+
+// Contains checks if the given time is within the given interval. The date part is ignored.
+func (interval *timeInterval) contains(t time.Time) bool {
+	h := t.Hour()
+	if h >= interval.StartHour && h <= interval.EndHour {
+		return true
+	}
+	return false
+}
+
 // fixedShowWeather set the time when the weather screen is always displayed
 // (not only when user touches the screen).
 // For example in the morning you may always want to see the weather information.
-var fixedShowWeather = util.TimeInterval{
+var fixedShowWeather = timeInterval{
 	StartHour: 6,
 	EndHour:   9,
 }
@@ -156,7 +170,7 @@ func (app *App) startCheckScreen() {
 	go func() {
 		for {
 			log.D("startCheckScreen", "Check screen to display")
-			if fixedShowWeather.Contains(time.Now()) {
+			if fixedShowWeather.contains(time.Now()) {
 				app.currentScreen <- weatherinformation
 			} else {
 				app.currentScreen <- screensaver
