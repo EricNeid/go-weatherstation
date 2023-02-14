@@ -51,3 +51,24 @@ func TestScreenSaverSetTime(t *testing.T) {
 	// verify
 	verify.Equals(t, testTime.Format("Mon 15:04"), viewModel.clock.Text)
 }
+
+func TestIsFilePresent_shouldReturnTrue(t *testing.T) {
+	// action
+	result := isFilePresent("../../testdata/img-1.png")
+	// verify
+	verify.Equals(t, true, result)
+}
+
+func TestIsFilePresent_shouldReturnFalse(t *testing.T) {
+	// action
+	result := isFilePresent("../../testdata/no-file")
+	// verify
+	verify.Equals(t, false, result)
+}
+
+func TestIsFilePresent_shouldReturnFalseBecauseDirectory(t *testing.T) {
+	// action
+	result := isFilePresent("../../testdata/dir")
+	// verify
+	verify.Equals(t, false, result)
+}

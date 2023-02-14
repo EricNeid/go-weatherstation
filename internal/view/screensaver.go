@@ -2,6 +2,7 @@ package view
 
 import (
 	"fmt"
+	"os"
 	"time"
 
 	"fyne.io/fyne/v2"
@@ -9,7 +10,6 @@ import (
 	"fyne.io/fyne/v2/container"
 	"fyne.io/fyne/v2/layout"
 	"fyne.io/fyne/v2/widget"
-	"github.com/EricNeid/go-weatherstation/internal/util"
 )
 
 // ScreenSaver represents a clickable background image.
@@ -46,7 +46,7 @@ func NewScreenSaver(tapped func()) (view fyne.CanvasObject, viewModel *ScreenSav
 
 // SetBackground changes the displayed background image of this screen saver.
 func (screenSaver *ScreenSaver) SetBackground(filepath string) error {
-	if !util.IsFilePresent(filepath) {
+	if !isFilePresent(filepath) {
 		return fmt.Errorf("given file %s does not exits", filepath)
 	}
 	screenSaver.image.File = filepath
@@ -72,4 +72,17 @@ func (screenSaver *ScreenSaver) Show() {
 	if screenSaver.view.Hidden {
 		screenSaver.view.Show()
 	}
+}
+
+// IsFilePresent returns true if a file with the given path exists.
+// If the path points to a directory, it also returns false.
+func isFilePresent(filepath string) bool {
+	f, err := os.Stat(filepath)
+	if os.IsNotExist(err) {
+		return false
+	}
+	if f.IsDir() {
+		return false
+	}
+	return true
 }
