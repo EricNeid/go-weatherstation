@@ -190,10 +190,10 @@ func (app *App) startClockUpdates() {
 }
 
 func (app *App) startWeatherInformationUpdates(city string) {
-	log.Panicln("weatherstation", "startWeatherInformationUpdates", city)
+	log.Println("weatherstation", "startWeatherInformationUpdates", city)
 	go func() {
 		for {
-			log.Panicln("weatherstation", "startWeatherInformationUpdates", "update weather information")
+			log.Println("weatherstation", "startWeatherInformationUpdates", "update weather information")
 
 			current, err := weather.Current(app.openWeatherKey, city)
 			if err != nil {
