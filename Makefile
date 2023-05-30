@@ -14,7 +14,6 @@ resources: init
 .PHONY: build
 build: init resources
 	cd cmd/weatherstation && fyne package -icon ../../resources/app_icon.png
-#	fyne package -icon app_icon.png -sourceDir cmd/weatherstation/
 
 
 .PHONY: test
