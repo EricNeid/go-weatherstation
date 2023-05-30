@@ -26,20 +26,19 @@ lint:
 	docker run -it --rm \
 		-e CGO_ENABLED=0 \
 		-w /app -v ${DIR}:/app \
-		golangci/golangci-lint:v1.50.1 \
+		golangci/golangci-lint:v1.52.2 \
 		golangci-lint run ./...
 
 
-linux-dependencies:
-	sudo apt-get install libegl1-mesa-dev and xorg-dev
-
-
+.PHONY: cross-build-windows
 cross-build-windows:
 	cd ../cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross \
 		&& fyne-cross windows \
 		&& cp -r images fyne-cross/bin/windows-amd64 \
 		&& echo replaceMe>fyne-cross/bin/windows-amd64/api.key
 
+
+.PHONY: cross-build-raspberry
 cross-build-raspberry:
 	cd ../cmd/weatherstation && go get github.com/lucor/fyne-cross/v2/cmd/fyne-cross \
 		&& fyne-cross linux -arch=arm \
