@@ -145,7 +145,7 @@ func (w *Weather) SetTime(t time.Time) {
 
 // SetCurrentTemperatureData updates header (city and current temperature) with the given information.
 func (w *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
-	log.Println("weather", "SetCurrentTemperatureData", data)
+	log.Println("weather", "SetCurrentTemperatureData", fmt.Sprintf("%+v\n", data))
 
 	w.city.SetText(data.Name)
 	w.currentTemperature.SetText(
@@ -157,7 +157,7 @@ func (w *Weather) SetCurrentTemperatureData(data *openweather.CurrentWeather) {
 
 // SetForecastTemperatureData updates the forecast displayed with the given information.
 func (w *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
-	log.Println("weather", "SetForecastTemperatureData", data)
+	log.Println("weather", "SetForecastTemperatureData", fmt.Sprintf("%+v\n", data))
 
 	condition := data.List[0].Weather[0].ID
 	image, err := assets.GetBackgroundImage(condition)
