@@ -3,7 +3,7 @@ DIR := ${CURDIR}
 
 .PHONY: init
 init:
-	go install fyne.io/fyne/v2/cmd/fyne@v2.2.1
+	go install -a fyne.io/fyne/v2/cmd/fyne@v2.3.5
 
 
 .PHONY: resources
