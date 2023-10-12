@@ -185,7 +185,7 @@ func (w *Weather) SetForecastTemperatureData(data *openweather.DailyForecast5) {
 }
 
 func (forecast *forecast) updateInformation(
-	dayTimeTemperatue float64,
+	dayTimeTemperature float64,
 	minTemperature float64,
 	maxTemperature float64,
 	conditionIcon string,
