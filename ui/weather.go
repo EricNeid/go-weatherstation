@@ -191,7 +191,7 @@ func (forecast *forecast) updateInformation(
 	conditionIcon string,
 ) {
 	forecast.dayTemperature.SetText(
-		fmt.Sprintf(assets.GetLabel(assets.DayTimeTemperature), dayTimeTemperatue))
+		fmt.Sprintf(assets.GetLabel(assets.DayTimeTemperature), dayTimeTemperature))
 	forecast.lowestTemperature.SetText(
 		fmt.Sprintf(assets.GetLabel(assets.MinTemperature), minTemperature))
 	forecast.maximumTemperature.SetText(
